@@ -1,0 +1,22 @@
+<div class="container">
+    <h2>Ciao <%- utente_loggato.nome %> <%- utente_loggato.cognome %> !</h2>
+    <br>
+      <ul class="list-group">
+        <tr class="list-group-item"><b>Questi sono i tuoi dati Personali:</b> </tr>
+        <li class="list-group-item"> Tipo : <%- utente_loggato.tipo_utente %>  </li>
+        <li class="list-group-item"> NOME : <%- utente_loggato.nome %>  </li>
+        <li class="list-group-item"> COGNOME : <%- utente_loggato.cognome %>  </li>
+        <li class="list-group-item"> REGIONE : <%- utente_loggato.regione %> </li>
+        <li class="list-group-item"> PROVINCIA : <%- utente_loggato.provincia %> </li>
+        <li class="list-group-item"> COMUNE : <%- utente_loggato.comune %> </li>
+        <li class="list-group-item"> DATA DI NASCITA : <%- utente_loggato.data_nascita %> </li>
+        <li class="list-group-item"> TELEFONO : <%- utente_loggato.telefono %> </li>
+        <li class="list-group-item"> E-MAIL : <%- utente_loggato.email %> </li>
+        <li class="list-group-item"> CARTA DI CREDITO : <%- utente_loggato.carta %> </li>
+      <div role="group" aria-label="Basic example" style="text-align: right; padding-top: 15px">
+          <a href="modificadati"><button type="button" class="btn btn-outline-secondary">Modifica Dati</button></a>
+          <a href="/users/eliminautente" onclick="if(!confirm('Sei sicuro di voler eliminare?')) return false"><button type="button" class="btn btn-outline-secondary">Elimina Account</button></a>
+      </div>   <br>
+  
+
+      

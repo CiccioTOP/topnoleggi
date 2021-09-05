@@ -1,0 +1,16 @@
+
+    <% for(var i=0; i< parcheggi.length; i++) { %>
+
+    <div class="container">
+        <h2>Ciao <%- utente_loggato.nome %> <%- utente_loggato.cognome %> !</h2>
+        <br>
+
+          <ul class="list-group">
+            <tr class="list-group-item"><b>Ecco i Risultati della tua ricerca:</b> </tr>
+            <li class="list-group-item"> ID Parcheggio : <%- parcheggio.id_parcheggio %>  </li>
+            <li class="list-group-item"> Stato : <%- parcheggio.stato %>  </li>
+          <div role="group" aria-label="Basic example" style="text-align: right; padding-top: 15px">
+          </div>  
+
+    
+          <% } %>

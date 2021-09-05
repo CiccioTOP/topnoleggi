@@ -1,0 +1,25 @@
+<div class="container">
+    <h2>Ciao <%- utente_loggato.nome %> <%- utente_loggato.cognome %> !</h2>
+    <br>
+      <ul class="list-group">
+        <tr class="list-group-item"><b>Queste sono le informazioni del tuo Parcheggio:</b> </tr>
+        <li class="list-group-item"> AUTO : <%- parcheggio.mezzo_auto %> </li>
+        <li class="list-group-item"> MOTO : <%- parcheggio.mezzo_moto %>  </li>
+        <li class="list-group-item"> BICI : <%- parcheggio.mezzo_bici %>  </li>
+        <li class="list-group-item"> MONOPATTINI : <%- parcheggio.mezzo_monopattino %> </li>
+        <li class="list-group-item"> NUMERO AUTO : <%- parcheggio.numero_auto %>  </li>
+        <li class="list-group-item"> NUMERO MOTO : <%- parcheggio.numero_moto %>  </li>
+        <li class="list-group-item"> NUMERO BICI : <%- parcheggio.numero_bici %>  </li>
+        <li class="list-group-item"> NUMERO MONOPATTINI : <%- parcheggio.numero_monopattino %> </li>
+        <li class="list-group-item"> STATO : <%- parcheggio.stato %> </li>
+        <li class="list-group-item"> DESCRIZIONE : <%- parcheggio.descrizione %> </li>
+        <li class="list-group-item"> FOTO : <%- parcheggio.foto %> </li>
+
+        <div class="img-wrapper"><img style="width : 200px; height : 200px;" src="../images/<%-parcheggio.foto%>" alt="image Alt" title="Image Title"></div>
+
+
+      <div role="group" aria-label="Basic example" style="text-align: right; padding-top: 15px">
+          <a href="modificadatiParcheggio"><button type="button" class="btn btn-outline-secondary">Modifica Dati Parcheggio</button></a>
+          <a href="/users/eliminautente" onclick="if(!confirm('Sei sicuro di voler eliminare?')) return false"><button type="button" class="btn btn-outline-secondary">Elimina Account</button></a>
+      </div>   <br>
+      <h3>Noleggi effettuati</h3>

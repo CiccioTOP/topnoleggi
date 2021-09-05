@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+            Pagina Di Aggiungi Mezzo
+        </title>
+</head>
+
+<body>
+            <div class="container">
+                <% include partials/navbar.ejs %>
+             
+                <div id="corpoPagina">
+                    <br>
+                    
+                    <h3>Aggiungi Mezzo</h3>
+                    <div class="formContainer">
+                                <% include partials/aggiungimezzoform.ejs %>
+                    </div>
+                </div>
+               
+            </div>
+            <% include partials/footer.ejs %>
+            
+            <script src="/javascripts/formval.js"></script>
+            <script>
+                var today = new Date().toISOString().split('T')[0];
+                document.getElementsByName("birthdate")[0].setAttribute('max', today);
+                
+            </script>
+           
+</body>
+
+</html>

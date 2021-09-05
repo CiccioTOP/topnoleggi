@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+    <%- include('partials/head') -%>
+        <title>
+          Noleggio
+        </title>
+        
+
+</head>
+
+<body>
+    <div class="container">
+        <% include partials/navbar.ejs %>
+        <div id="corpoPagina">
+            <div class="contenutoPagina">
+                <div class="row">
+                    <div class="col-sm-9">
+                    </div>
+                    <% include partials/FormNoleggioMezzo.ejs%>
+                </div>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+    
+    </div>  
+    <% include partials/footer.ejs %> 
+</body>
+</html>

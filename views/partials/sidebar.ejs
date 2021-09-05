@@ -1,0 +1,31 @@
+<%- include('partials/navbar') -%>
+
+<%- include('partials/head') -%>
+<center>
+<div class="col-sm-3">
+  <br> <br>
+      <div id= "noLog">
+          <h4> Accedi qui </h4>
+       <form id="formLoginHome" action="/users/login" method="POST">
+         <div class="form-group">
+           <label for="email">Email</label>
+           <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+         </div>
+         <div class="form-group">
+           <label for="pass">Password</label>
+           <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+         </div>
+         <div class="form-row">
+           <div class="form-group">
+             <small class="form-text text-muted">
+               <a href="registrati"> Non sei registrato? Clicca qui.</a> &nbsp;&nbsp;
+             </small>
+           </div>
+           <div class="form-group">
+             <button name="ok" id="ok" class="btn btn-outline-secondary btn-sm" type="submit"> Accedi </button>
+           </div>
+         </div>
+       </form>
+     </div>
+  </div>
+</center>

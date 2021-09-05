@@ -1,0 +1,11 @@
+<img id="box-image" style="width: 200px;" src="../images/<%- mezzi.foto%>" class="card-img" alt="image">
+    <a class="list-group-item"> Tipo: <%- mezzi.tipo_mezzo %>  </a>
+    <a class="list-group-item"> Modello: <%- mezzi.modello%>  </a>
+    <a class="list-group-item"> Targa: <%- mezzi.targa%>  </a>
+    <a class="list-group-item"> Dal: <%- noleggio.dal %>  </a> 
+    <a class="list-group-item"> Al: <%- noleggio.al%>  </a>
+    <a class="list-group-item"> €<%- noleggio.prezzo %>  </a>
+    <form action="/users/NoleggioFine" method="POST">
+    <a class="btn btn-outline-secondary mt-3" href="/NoleggioPT3" class = "previous">&laquo; Indietro</a>
+     <button  type="submit" class="btn btn-outline-secondary mt-3">Noleggia</button>
+    </form>

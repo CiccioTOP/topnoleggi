@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+          Dati Mezzo
+        </title>
+</head>
+
+<body>
+            <div class="container">
+                <% include partials/navbar.ejs %>
+             
+                <div id="corpoPagina">
+                    <br>
+                    
+                    <h3>Mezzo: </h3>
+                    <div class="formContainer">
+                                <% include partials/DatiMezzoDaNoleggiare%>
+                    </div>
+                </div>
+              
+            </div>
+
+            <% include partials/footer.ejs %>
+           
+</body>

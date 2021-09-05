@@ -1,0 +1,42 @@
+
+
+<br>
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/ultimaModifica">
+
+   
+       
+
+           <div class="form-group-time">
+            <label for="dal">Dal(Giorno/ore)</label>
+            <input name = "dal" id="dal"  type="datetime-local" class = "form-control"  value="<%-mio_Noleggio.dal%>"      required/>
+            <div class="invalid-feedback">
+Inserire una data ed un orario
+            </div>
+
+            <label for="al">Al(Giorno/ore)</label>
+            <input name = "al" id="al"  type="datetime-local" class = "form-control"       value="<%-mio_Noleggio.al%>"        required/>
+            <div class="invalid-feedback">
+                Inserire una data ed un orario
+            </div>
+        </div>
+
+
+
+      
+
+
+   <div class="form-group_autista">      
+  <label for="Destinazione">Destinazione </label> 
+        <!-- appliccare address field autocomplete-->
+  <input id="Destinazione" name="Destinazione" type="text" class="form-control" placeholder="<%-mio_Noleggio.ID_noleggio%>" value="<%-mio_Noleggio.ID_noleggio%>"/>
+   </div>
+
+        <br><br>
+      
+        <div class = "button_group">
+            <a class="btn btn-outline-secondary mt-3" href="/mieiNoleggi" class = "previous">&laquo; Indietro</a>
+        &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp;
+        &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp;
+        <button type="submit" class="btn btn-outline-secondary -3"  >Avanti</button>
+    </div>
+</form>

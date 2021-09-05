@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+          Pannello Utente
+        </title>
+</head>
+
+<body>
+            <div class="container">
+                <% include partials/navbar.ejs %>
+             
+                <div id="corpoPagina">
+                    <br>
+                    
+                    <h3>Nuovi Dati:</h3>
+                    <div class="formContainer">
+                                <% include partials/modificadati2.ejs %>
+                    </div>
+                </div>
+              
+            </div>
+            <% include partials/footer.ejs %>
+            <script src="/javascripts/formval.js"></script>
+            <script>
+                var today = new Date().toISOString().split('T')[0];
+                document.getElementsByName("birthdate")[0].setAttribute('max', today);
+                
+            </script>
+           
+</body>
+
+</html>

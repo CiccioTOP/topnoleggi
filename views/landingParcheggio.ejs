@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+          Dati Parcheggio
+        </title>
+</head>
+
+<body>
+            <div class="container">
+                <% include partials/navbar %>
+             
+                <div id="corpoPagina">
+                    <br>
+                    
+                    <h3>Parcheggio: </h3>
+                    <div class="formContainer">
+                                <% include partials/risultatiRicercaParcheggi %>
+                    </div>
+                </div>
+                <% include partials/footer.ejs %>
+            </div>
+
+        
+           
+</body>
+
+</html>
