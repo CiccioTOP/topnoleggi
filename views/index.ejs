@@ -12,12 +12,12 @@
 <header>
   
  
-  <% include partials/navbar.ejs %>
+  
 </header>
 
 <main>
 
-
+  <% include partials/navbar.ejs %>
   
   <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -32,8 +32,8 @@
    
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Le miglior auto che troverete.</h1>
-            <p>Non perdere tempo!.</p>
+            <h1>Le migliori auto che troverete.</h1>
+            <p>Non perdere tempo!</p>
             <p><a id="myP1" class="btn btn-lg btn-primary" href="registrati">Registrati Ora!</a></p>
           </div>
         </div>
@@ -180,17 +180,32 @@
 
   </div><!-- /.container -->
 
+  <br>
+  <center><hr class = "col-sm-8"></center>
+  <br>
 
-  <!-- FOOTER -->
-  <!-- <footer class="container">
-    <p class="float-end"><a href="#">Back to top</a></p>
-    <p>&copy; 2017–2021 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-  </footer> -->
   <% include partials/footer.ejs %>
 </main>
 
-<% if(utente_loggato != null) { %>
-<script> 
+
+
+                         <script> 
+
+tipo_utente = '<%-tipo_utente%>'
+
+if (tipo_utente == 'Utente'){
+var myButton = document.getElementById('myP1');
+                         myButton.innerHTML = 'Noleggia Ora!'
+                         myButton.href = '/NoleggioMezzi'}
+
+                         else{}
+
+
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+    if (notifica == 'login' && counter == 0 ){
   const Toast = Swal.mixin({
                       toast: true,
                       position: 'top-end',
@@ -218,15 +233,158 @@
   else{                   
                     Toast.fire({
                       icon: 'success',
-                      title: 'Signed in successfully'
+                      title: 'Autenticazione effettuata con successo'
                     })}
                    
                    {
-                     var elem = document.getElementById('myP1');
-                         elem.style.display = 'none'; 
+                     
+                   }}
+
+                   else if (notifica == 'noleggio effettuato' && counter == 0 ){
+
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Noleggio effettuato con successo'
+                    })}
+                   
+                   
                    }
+
+
+                   else if (notifica == 'modifica effettuata' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Modifica effettuata con successo'
+})}
+
+
+}
+
+else if (notifica == 'guasto segnalato' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Guasto segnalato con successo'
+})}
+
+
+}
+       
+
+else if (notifica == 'consegna effettuata' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Consegna effettuata con successo'
+})}
+
+
+}
+   
+                   
                     </script>
-<%}%>
+
       
   </body>
 </html>

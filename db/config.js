@@ -7,8 +7,8 @@ exports.config = {
   user: 'dario',
   password: 'dario123',
   database: 'provadb',
-  port: 8889,
   multipleStatements: true // consente query multiple in un'unica istruzione SQL
+ 
 }
     /*Create a table named "customers":*/
     // var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";

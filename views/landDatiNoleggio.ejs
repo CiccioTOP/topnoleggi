@@ -4,24 +4,32 @@
 <head>
     <%- include('partials/head') -%>
         <title>
-          Dati Mezzo
+          Modifica Noleggio
         </title>
 </head>
 
 <body>
+    <% include partials/navbar.ejs %>
             <div class="container">
-                <% include partials/navbar.ejs %>
+               
              
                 <div id="corpoPagina">
                     <br>
                     
-                    <h3>Mezzo: </h3>
+                    <h3>Modifica Noleggio:  </h3>
                     <div class="formContainer">
                                 <% include partials/formModificaNoleggio%>
                     </div>
                 </div>
               
             </div>
+<br>
+<center>
+<hr class = 'col-sm-8'> 
+</center>
+<br>
+
+            
             <% include partials/footer.ejs %>
         
            

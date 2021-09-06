@@ -1,9 +1,3 @@
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<!-- ---- Include the above in your HEAD tag --------  -->
-
-
 
 <form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/AggiungiParcheggio">
 
@@ -20,41 +14,32 @@
    </div>
 
 
-    <!-- <div class="ID_parcheggio">
-      <label for="id_parcheggio">ID parcheggio</label>
-      <select name="id_parcheggio" id="id_parcheggio">
-       <option type="number" value="">0002</option>
-      </select>
-     </div> -->
-
+   
   
-    <!-- <div class="mezzi_autorizzati">
-    <fieldset>
-     <legend>Mezzi Autorizzati</legend>
-      <input type="checkbox" name="SI" id="auto" />
-      <label for="mezzoa">Auto</label>
-      <input type="checkbox" name="SI" id="moto" />
-      <label for="mezzom">Moto</label>
-      <input type="checkbox" name="SI" id="bici" />
-      <label for="mezzob">Bicicletta</label>
-      <input type="checkbox" name="SI" id="monopattini" />
-      <label for="mezzomp">Monopattino</label>
-    </fieldset>
-  </div> -->
-
+  <div class="form-check mezzi_autorizzati">
   
-  <div class="mezzi_autorizzati">
-    <fieldset>
      <legend>Mezzi Autorizzati</legend>
-      <label for="auto">Auto</label>
-      <input type="checkbox" name="mezzo_auto" id="mezzo_auto"  value="si"/>
-      <label for="moto">Moto</label>
-      <input type="checkbox" name="mezzo_moto" id="mezzo_moto" value="si"/>
-      <label for="bici">Bicicletta</label>
-      <input type="checkbox" name="mezzo_bici" id="mezzo_bici" value="si" />
-      <label for="monopattini">Monopattino</label>
-      <input type="checkbox" name="mezzo_monopattino" id="mezzo_monopattino" value="si"/>
-    </fieldset>
+     <div>
+     
+      <input type="checkbox" class = "form-check-input" name="mezzo_auto" id="mezzo_auto"  value="si"/>
+      <label class="form-check-label" for="auto">Auto</label>
+    </div>
+    <div>
+      
+      <input type="checkbox" class = "form-check-input" name="mezzo_moto" id="mezzo_moto" value="si"/>
+      <label class="form-check-label" for="moto">Moto</label>
+      </div>
+     
+      <div>
+      <input type="checkbox" class = "form-check-input" name="mezzo_bici" id="mezzo_bici" value="si" />
+      <label class="form-check-label" for="bici">Bicicletta</labe l>
+    </div>
+    <div>
+     
+      <input type="checkbox" class = "form-check-input" name="mezzo_monopattino" id="mezzo_monopattino" value="si"/>
+      <label class="form-check-label" for="monopattini">Monopattino</label>
+    </div>
+   
   </div>
 
    
@@ -66,128 +51,176 @@
 
   <div class="Posti">
     <label for="numero_auto">Auto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-    <input type="number" name="numero_auto" id="numero_auto" required/>
+    <input type="number" class = "form-control" name="numero_auto" id="numero_auto" value = '0' disabled required/>
   </div>
 
   <div class="Posti">
     <label for="numero_moto">Moto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-    <input type="number" name="numero_moto" id="numero_moto" required/>
+    <input type="number"class = "form-control" name="numero_moto" id="numero_moto" value = '0' disabled required/>
   </div>
 
     <div class="Posti">
     <label for="numero_bici">Bici &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-    <input type="number" name="numero_bici" id="numero_bici" required/>
+    <input type="number" class = "form-control" name="numero_bici" id="numero_bici" disabled  value = '0' required/>
   </div>
 
   <div class="Posti">
     <label for="numero_monopattino">Monopattino</label>
-    <input type="number" name="numero_monopattino" id="numero_monopattino"required />
+    <input type="number" class = "form-control"name="numero_monopattino" id="numero_monopattino" value="0" disabled required />
   </div>
 
-   <div class="StatoParcheggio">
-    <fieldset>
+   <div class="form-check">
+ 
       <legend>Stato Parcheggio</legend>
-      <label for="stato_disp">Disponibile</label>
-       <input type="radio" name="stato" id="stato"  value="disponibile" required/>
-       <label for="stato_non">Non Disponibile</label>
-       <input type="radio" name="stato" id="stato"  value="non disponibile" required/>
-       <label for="stato_man">In Manutenzione</label>
-       <input type="radio" name="stato" id="stato"  value="in manutenzione" required/>
-     </fieldset>
+      <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="disponibile" required/>
+       <label class="form-check-label" for="stato_disp">Disponibile</label>
+       </div>
+
+       <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="non disponibile" required/>
+       <label class="form-check-label"  for="stato_non">Non Disponibile</label>
+       </div>
+
+       <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="in manutenzione" required/>
+       <label class="form-check-label"  for="stato_man">In Manutenzione</label>
   </div>
+  
+</div>
   <br>
 
-   <!-- <li>
-     <label for="statop">Stato parcheggio</label>
-     <textarea name="statop" id="statop" cols="30" rows="1"></textarea>
-   </li>  -->
-
-  
-
-  <div class="descrizione">
-    <label for="descrizione">Breve Descrizione</label>
-    <input  type = "text" id="descrizione"name="descrizione" class="form-control"></input>
-  </div>
-
-
-  <p class="lead text-danger mt-4">Luogo in cui si trova il Parcheggio*</p>
-
   <div class="input-group mb-3">
-      <div class="input-group-prepend">
-          <span class="input-group-text">Regione&nbsp;&nbsp;</span>
-      </div>
-      <select id="region" class="custom-select" name="region">
+  <div class="input-group-prepend">
+      <span class="input-group-text">Regione&nbsp;&nbsp;</span>
+  </div>
+  <select id="region" class="custom-select" name="region">
+      <option value="" selected></option>
+      <option value="Abruzzo">Abruzzo</option>
+      <option value="Basilicata">Basilicata</option>
+      <option value="Calabria">Calabria</option>
+      <option value="Campania">Campania</option>
+      <option value="Emilia-Romagna">Emilia-Romagna</option>
+      <option value="Friuli-Venezia Giulia">Friuli-Venezia Giulia</option>
+      <option value="Lazio">Lazio</option>
+      <option value="Liguria">Liguria</option>
+      <option value="Lombardia">Lombardia</option>
+      <option value="Marche">Marche</option>
+      <option value="Molise">Molise</option>
+      <option value="Piemonte">Piemonte</option>
+      <option value="Puglia">Puglia</option>
+      <option value="Sardegna">Sardegna</option>
+      <option value="Sicilia">Sicilia</option>
+      <option value="Toscana">Toscana</option>
+      <option value="Trentino-Alto Adige">Trentino-Alto Adige</option>
+      <option value="Umbria">Umbria</option>
+      <option value="Valle d'Aosta">Valle d'Aosta</option>
+      <option value="Veneto">Veneto</option>
+  </select>
+  <div class="invalid-feedback">
+      Selezionare la regione di nascita
+  </div>
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+      <span class="input-group-text">Provincia&nbsp;</span>
+  </div>
+  <select id="state" name="state" class="custom-select" required>
           <option value="" selected></option>
-          <option value="Abruzzo">Abruzzo</option>
-          <option value="Basilicata">Basilicata</option>
-          <option value="Calabria">Calabria</option>
-          <option value="Campania">Campania</option>
-          <option value="Emilia-Romagna">Emilia-Romagna</option>
-          <option value="Friuli-Venezia Giulia">Friuli-Venezia Giulia</option>
-          <option value="Lazio">Lazio</option>
-          <option value="Liguria">Liguria</option>
-          <option value="Lombardia">Lombardia</option>
-          <option value="Marche">Marche</option>
-          <option value="Molise">Molise</option>
-          <option value="Piemonte">Piemonte</option>
-          <option value="Puglia">Puglia</option>
-          <option value="Sardegna">Sardegna</option>
-          <option value="Sicilia">Sicilia</option>
-          <option value="Toscana">Toscana</option>
-          <option value="Trentino-Alto Adige">Trentino-Alto Adige</option>
-          <option value="Umbria">Umbria</option>
-          <option value="Valle d'Aosta">Valle d'Aosta</option>
-          <option value="Veneto">Veneto</option>
       </select>
-      <div class="invalid-feedback">
-          Selezionare la regione di nascita
-      </div>
+  <div class="invalid-feedback">
+      Selezionare la provincia di nascita
   </div>
-  
-  <div class="input-group mb-3">
-      <div class="input-group-prepend">
-          <span class="input-group-text">Provincia&nbsp;</span>
-      </div>
-      <select id="state" name="state" class="custom-select" >
-              <option value="" selected></option>
-          </select>
-      <div class="invalid-feedback">
-          Selezionare la provincia di nascita
-      </div>
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+      <span class="input-group-text">Comune&nbsp;&nbsp;</span>
   </div>
-  
-  <div class="input-group mb-3">
-      <div class="input-group-prepend">
-          <span class="input-group-text">Comune&nbsp;&nbsp;</span>
-      </div>
-      <select id="town" name="town" class="custom-select" >
-              <option value="" selected></option>
-          </select>
-      <div class="invalid-feedback">
-          Selezionare il comune di nascita
-      </div>
+  <select id="town" name="town" class="custom-select" required>
+          <option value="" selected></option>
+      </select>
+  <div class="invalid-feedback">
+      Selezionare il comune di nascita
   </div>
-  
-  <div class="indirizzo"></div>
-    <label for="indirizzo">Indirizzo:</label>
-    <input  type = "text" id="indirizzo"name="indirizzo" class="form-control"></input>
-  </div>
+</div>
+
+<label for="Indirizzo">Indirizzo </label>
+<!-- appliccare address field autocomplete-->
+<input id="Indirizzo" name="Indirizzo" type="text" class="form-control" maxlength="40"/>
+
+Selezione immagine da caricare:
+<input type="file" class = "form-control" name="foto" id="foto" accept="image/*"/>
+
+<div class="descrizione">
+<label for="descrizione">Breve Descrizione</label>
+<textarea type = "input" class = "form-control" id="descrizione"name="descrizione" cols="30" rows="5"></textarea>
+</div>
+
+<br> <br>
+
+
+<br><br>
 
 
 
 
-  <br> <br>
-  <legend>Scegli una foto per il tuo parcheggio</legend>
 
-  <br><br>
 
-  <form action="upload" method="post" enctype="multipart/form-data">
-    Selezione immagine da caricare:
-    <input type="file" name="foto" id="foto" accept="image/*"/>
-    <button type="submit" name="submit" id="submit">Conferma</button>
+<div class = "button-group">
+  <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+    <button style="float: right;" class="btn btn-outline-secondary mt-3" type="submit">Avanti</button>
+</div>
+
+
+
 </form>
-  
- 
-<script src="/javascripts/formval.js"></script>
 
+<script>
+
+
+
+document.getElementById('mezzo_auto').onchange = function() {
+document.getElementById('numero_auto').disabled = !this.checked;
+};
+
+
+document.getElementById('mezzo_moto').onchange = function() {
+document.getElementById('numero_moto').disabled = !this.checked;
+};
+
+
+document.getElementById('mezzo_bici').onchange = function() {
+document.getElementById('numero_bici').disabled = !this.checked;
+};
+
+
+document.getElementById('mezzo_monopattino').onchange = function() {
+document.getElementById('numero_monopattino').disabled = !this.checked;
+};
+
+
+
+
+
+
+let autocomplete;
+function initAutocomplete(){
+  autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('Indirizzo'),
+      {
+          types: ['establishment'],
+          componentRestrictions: {'country' : ['IT']},
+          fields: ['place_id', 'geometry', 'name']
+                  });
     
+}
+
+
+</script>
+
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLjJODqPRmxsGeumOVnJUnlU-9Mxqiqe8&libraries=places&callback=initAutocomplete">
+async
+</script>

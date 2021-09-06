@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html>
 
-    
 <head></head>
     <%- include('partials/head') -%>
         <title>
-            Proc Noleggi S.r.l.
+          
         </title>
         
 
 </head>
 
 <body>
-
-    <br> <br>
+    <% include partials/navbar.ejs %>
     <div class="container">
-        <% include partials/navbar.ejs %>
+       
         <div id="corpoPagina">
             <div class="contenutoPagina">
                 <div class="row">
                     <div class="col-sm-9">
                     </div>
-                    <% include partials/UtenteNonEsiste.ejs %>
+                    <% include partials/modificaNoleggioAmm.ejs%>
                 </div>
             </div>
         </div>
-      
+     
     </div>   
+    <br>
+    <center><hr class = col-sm-8></center>
+    <br>
     <% include partials/footer.ejs %>
 </body>
 </html>

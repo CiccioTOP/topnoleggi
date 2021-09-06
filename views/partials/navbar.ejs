@@ -1,65 +1,124 @@
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-      <img class="navbar-brand"   style="width:150px" src="images/topNoleggi.png"></img>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <div class="topnav" id="myTopnav">
-            <% if(utente_loggato == null) { %>
-            <a href="/" class="active"><i class="fa fa-fw fa-home"></i>Home</a>
-            <a href="registrati">Registrati</a>
-            <a href="accedi">Accedi</a>
-            <a id="ab" type="confirmButtonText">provami</a>
-            <%}%>
-  
-                <% if(utente_loggato != null) { %>
 
-    
-                  <% if(utente_loggato.tipo_utente=='Amministratore' ) { %>
-                    <a href="/"><i class="fa fa-fw fa-home" ></i>Home</a>
-                    <a href="reg_amministratore">Registrazione Utenze</a>
-                    <a href="AggiungiMezzo" >AggiungiMezzo</a>
-                    <a href="../RicercaMezzoBASIC" >RicercaMezzo</a>
-                    <a href = "../AggiungiParcheggio">AggiungiParcheggio</a>
-                    <a href="logout">Logout</a>
-                    
-                    <%}%>
+
+
+<section class="navigation">
+  <div class="nav-container">
+    <div class="brand">
+      <img class="navbar-brand"style="width:50px" src="images/favicon.png"></img>
+      <img class="navbar-brand"style="width:150px" src="images/topNoleggi.png"></img>
+    </div>
+    <nav>
+      <div class="nav-mobile">
+        <a id="nav-toggle" href="#!"><span></span></a>
+      </div>
+      <ul class="nav-list">
+        <!-- Setting the links to #! will ensure that no action takes place on click. -->
         
-                  <% if(utente_loggato.tipo_utente=='ImpiegatoParcheggio' ) { %>
-                    <a href="impiegatoparcheggio"><i class="fa fa-fw fa-home"></i>Home</a>
-                    <a href="segnalaGuasto">Segnala Guasto</a>
-                    <a href="logout">Logout</a>
-                    <%}%>  
 
-                <% if(utente_loggato.tipo_utente == 'Utente') { %>
-                  <a href="/" class="active"><i class="fa fa-fw fa-home"></i>Home</a>
-                  <a href="../NoleggioMezzi">NoleggioMezzi</a>
-                  <a href="/users/mieiNoleggi" >I Miei Noleggi</a>
-            <div class="dropdown">
-              <button class="dropbtn"><i class="fa fa-fw fa-user"></i>Pannello Utente
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content">
-                <a href="acc">Modifica Utente</a>
-                <a href="logout">Logout</a>
-              </div>
-            </div>
-            <%}%>
-            <%}%>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-          </div>
+        <li><a href="/" class="active"><i class="fa fa-fw fa-home"></i>Home</a></li>
+        <% if(utente_loggato == null) { %>
+        <li><a href="accedi">Accedi</a></li>
+        <li><a href="registrati">Registrati</a></li>
+        <%}%>
+        <% if(utente_loggato != null) { %>
+
     
-        </ul>
+          <% if(utente_loggato.tipo_utente=='Amministratore' ) { %>
+           
+            <li><a href="logout">Logout</a></li>
+            
+            <%}%>
+
+          <% if(utente_loggato.tipo_utente=='ImpiegatoParcheggio' ) { %>
+   
+            <li><a href="segnalaGuasto">Segnala Guasto</a></li>
+            <li><a href="logout">Logout</a></li>
+            <%}%>  
+
+            <% if(utente_loggato.tipo_utente=='Autista' ) { %>
+           
+              <li><a href="logout">Logout</a></li>
+              <%}%> 
+
+        <% if(utente_loggato.tipo_utente == 'Utente') { %>
+ 
+          <li><a href="../NoleggioMezzi">NoleggioMezzi</a></li>
+          <li><a href="/users/mieiNoleggi">I Miei Noleggi</a></li>
+        <li><a href="acc">Modifica Utente</a></li>
+        <li><a href="logout">Logout</a></li>
       </div>
     </div>
-  </nav>
+    <%}%>
+    <%}%>
+  </div>  
+      
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<style>
+
+</style>
 
 
-<!-- 
-  <div class="logo"><a href="#"><img src ="/images/logo.png"></a>
-  </div> se lo stai leggendo sappi che non ti cancellerò mai muahahhahahaha! -->
+<script>
+  (function($) { // Begin jQuery
+  $(function() { // DOM ready
+    // If a link has a dropdown, add sub menu toggle.
+    $('nav ul li a:not(:only-child)').click(function(e) {
+      $(this).siblings('.nav-dropdown').toggle();
+      // Close one dropdown when selecting another
+      $('.nav-dropdown').not($(this).siblings()).hide();
+      e.stopPropagation();
+    });
+    // Clicking away from dropdown will remove the dropdown class
+    $('html').click(function() {
+      $('.nav-dropdown').hide();
+    });
+    // Toggle open and close nav styles on click
+    $('#nav-toggle').click(function() {
+      $('nav ul').slideToggle();
+    });
+    // Hamburger to X toggle
+    $('#nav-toggle').on('click', function() {
+      this.classList.toggle('active');
+    });
+  }); // end DOM ready
+})(jQuery); // end jQuery
+</script>
+
+
+
+<script>
+  document.getElementById("a").addEventListener("click", fire);
  
+ 
+ //  function fire(){
+ //   let timerInterval
+ //   Swal.fire({
+ //     title: 'Auto close alert!',
+ //     html: 'I will close in <b></b> milliseconds.',
+ //     timer: 2000,
+ //     timerProgressBar: true,
+ //     didOpen: () => {
+ //       Swal.showLoading()
+ //       const b = Swal.getHtmlContainer().querySelector('b')
+ //       timerInterval = setInterval(() => {
+ //         b.textContent = Swal.getTimerLeft()
+ //       }, 100)
+ //     },
+ //     willClose: () => {
+ //       clearInterval(timerInterval)
+ //     }
+ //   }).then((result) => {
+     
+ //     /* Read more about handling dismissals below */
+ //     if (result.dismiss === Swal.DismissReason.timer) {
+ //       location.replace("/accedi")
+ //       console.log('I was closed by the timer')
+ //     }
+ //   })}
+ //   </script>

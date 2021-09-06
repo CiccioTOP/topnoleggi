@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+           Home Page
+        </title>
+</head>
+
+<body>
+  <% include partials/navbar.ejs %>
+    <div class="container">
+       
+
+            <div id="corpoPagina">
+                <br>
+
+                <div class="formContainer">
+                    <% include partials/indexAmministratore.ejs %>
+                </div>
+            </div>
+          <hr class="featurette-divider"> 
+    </div>
+
+    <br>
+    <center><hr class = "col-sm-8"></center>
+    <br>
+  
+    <% include partials/footer.ejs %>
+
+</body>
+
+</html>
+
+<script> 
+
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+    if (notifica == 'login' && counter == 0 ){
+  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Autenticazione effettuata con successo'
+                    })}
+                   
+                   {
+                     
+                   }}
+
+                   else if (notifica == 'noleggio effettuato' && counter == 0 ){
+
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Noleggo effettuato con successo'
+                    })}
+                   
+                   
+                   }
+                    </script>

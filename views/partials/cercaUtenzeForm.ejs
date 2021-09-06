@@ -1,0 +1,34 @@
+
+<center>
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/cercaUtenze">
+
+    <body>
+    <div class="RicercaParcheggio">
+    
+    
+            <legend>Inserisci ID utente da ricercare</legend>
+  
+              <div class="col-sm-8">
+                <label for="ID_utente">ID Utente</label>
+                <input type="number" name="ID_utente" id="ID_utente" class="form-control"  required/>       
+                <div id="myError"></div>
+                <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+                <button style = "float: right; "   type="submit" name="submit" id="submit"  class="btn btn-outline-secondary mt-3">Ricerca </button>
+            
+              </div>
+  
+           
+            </center>
+  
+      </form>
+    </div>
+    </body>
+  
+    <script>
+      error = '<%-ErrorHandler.myError%>'
+      if (error == 'MI'){
+        document.getElementById('myError').innerText = 'utente inesistente'
+        document.getElementById('myError').style.color = 'red'
+      }
+      else{}
+    </script>

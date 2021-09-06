@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var fileUpload = require('express-fileupload')
-
+var nodemailer = require('nodemailer');
 
 var flash = require('req-flash');
 var indexRouter = require('./routes/index');

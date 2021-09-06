@@ -23,3 +23,50 @@
           <a href="/users/eliminautente" onclick="if(!confirm('Sei sicuro di voler eliminare?')) return false"><button type="button" class="btn btn-outline-secondary">Elimina Account</button></a>
       </div>   <br>
       <h3>Noleggi effettuati</h3>
+
+
+    
+
+
+<script>
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+
+if (notifica == 'parcheggio modificato' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Parcheggio modificato con successo'
+})}
+
+
+}
+
+      </script>

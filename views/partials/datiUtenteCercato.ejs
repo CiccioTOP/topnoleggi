@@ -1,0 +1,26 @@
+<div class="container">
+   
+    <br>
+      <ul class="list-group">
+        <tr class="list-group-item"><b>Questi sono i dati Personali dell'utente <%- utente.ID_utente%> </b> </tr>
+        <li class="list-group-item"> Tipo : <%- utente.tipo_utente %>  </li>
+        <li class="list-group-item"> NOME : <%- utente.nome %>  </li>
+        <li class="list-group-item"> COGNOME : <%- utente.cognome %>  </li>
+        <li class="list-group-item"> REGIONE : <%- utente.regione %> </li>
+        <li class="list-group-item"> PROVINCIA : <%- utente.provincia %> </li>
+        <li class="list-group-item"> COMUNE : <%- utente.comune %> </li>
+        <li class="list-group-item"> DATA DI NASCITA : <%- utente.data_nascita %> </li>
+        <li class="list-group-item"> TELEFONO : <%- utente.telefono %> </li>
+        <li class="list-group-item"> E-MAIL : <%- utente.email %> </li>
+      </ul>
+
+
+
+      <div style = "margin: 2px;">
+      <a href="modificaUC"><button type="button" class="btn btn-outline-secondary">Modifica Dati</button></a>
+      <a href="/users/eliminautente" style="float: right;" onclick="if(!confirm('Sei sicuro di voler eliminare?')) return false"><button type="button" class="btn btn-outline-secondary">Elimina Account</button></a>
+     <br>
+     <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+        
+         <br>
+  

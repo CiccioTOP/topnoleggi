@@ -1,82 +1,35 @@
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<!-- ---- Include the above in your HEAD tag -------- -->
 
-<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/utenteregistrato">
+
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/ricercaParcheggio">
 
   <body>
   <div class="RicercaParcheggio">
   
-   <form action="#">
+   <form action="/users/ricercaParcheggio" method="GET">
   
           <legend>Inserisci dati Parcheggio</legend>
 
             <div class="ID_parcheggio">
               <label for="ID_parcheggio">ID parcheggio</label>
-              <input type="number" name="ID_parcheggio" id="ID_parcheggio" />
-             </div>
-
+              <input type="number" name="ID_parcheggio" id="ID_parcheggio" class="form-control"  required/>
+              <div id="myError"></div>
+              <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+              <button style = "float: right; "   type="submit" name="submit" id="submit" value="Ricerca Parcheggio" class="btn btn-outline-secondary mt-3">Ricerca </button>
           
-            <div class="MezziAutorizzati">
-            <fieldset>
-             <legend>Mezzi Autorizzati</legend>
-              <input type="checkbox" name="mezzo" id="mezzoa" />
-              <label for="mezzoa">Auto</label>
-              <input type="checkbox" name="interessi" id="mezzom" />
-              <label for="mezzom">Moto</label>
-              <input type="checkbox" name="interessi" id="mezzob" />
-              <label for="mezzob">Bicicletta</label>
-              <input type="checkbox" name="interessi" id="mezzomp" />
-              <label for="mezzomp">Monopattino</label>
-            </fieldset>
-          </div>
+            </div>
 
-           
-           
-
-         <div class="Posti">
-           <legend>Numero posti</legend>
-          </div>
-
-          <div class="Posti">
-            <label for="numeroa">Auto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-            <input type="number" name="numeroauto" id="numeroa" />
-          </div>
-
-          <div class="Posti">
-            <label for="numerom">Moto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-            <input type="number" name="numeromoto" id="numerom" />
-          </div>
-
-            <div class="Posti">
-            <label for="numerob">Bici &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-            <input type="number" name="numerobici" id="numerob" />
-          </div>
-
-          <div class="Posti">
-            <label for="numeromono">Monopattino</label>
-            <input type="number" name="numeromonopattino" id="numeromono" />
-          </div>
-
-           <div class="StatoParcheggio">
-            <fieldset>
-              <legend>Stato Parcheggio</legend>
-               <input type="checkbox" name="stato" id="statodisp" />
-               <label for="statodisp">Disponibile</label>
-               <input type="checkbox" name="stato" id="statono" />
-               <label for="statono">Non Disponibile</label>
-               <input type="checkbox" name="stato" id="statoin" />
-               <label for="statoin">In Manutenzione</label>
-             </fieldset>
-          </div>
-
-          <br><br><br>
-          
-            <div class="conferma">
-            <input type="submit" name="submit" id="submit" value="Ricerca Parcheggio" />
-          </div>
+         
+     
 
     </form>
   </div>
   </body>
+
+  <script>
+    error = '<%-ErrorHandler.myError%>'
+    if (error == 'MI'){
+      document.getElementById('myError').innerText = 'Parcheggio inesistente'
+      document.getElementById('myError').style.color = 'red'
+    }
+    else{}
+  </script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head') -%>
+        <title>
+           Home Page
+        </title>
+</head>
+<main>
+<body>
+    <div class="container">
+        <% include partials/navbar.ejs %>
+
+            <div id="corpoPagina">
+                <br>
+
+                <div class="formContainer">
+                    <% include partials/modificaUtenteCercatoForm.ejs %>
+                </div>
+            </div>
+            <br>
+          <hr class="featurette-divider"> 
+    </div>
+    
+</body>
+
+</main>
+
+<br>
+<br>
+<% include partials/footer.ejs %>
+</html>
+
+

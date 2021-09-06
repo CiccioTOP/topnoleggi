@@ -1,0 +1,56 @@
+
+      <div class= "container">
+          <br>
+          <img id="box-image" style="width: 200px;" src="../images/<%-noleggi.foto%>" class="card-img" alt="image">
+          <a class="list-group-item"> <%- noleggi.ID_noleggio %>  </a>
+      <a class="list-group-item"> Dove: <%- noleggi.dove%>  </a>
+      <a id =  "<%- noleggi.dal%>"  class="list-group-item "> Dal: <%- noleggi.dal%>  </a>
+      <a id =  "<%- noleggi.al%>" class="list-group-item "  > Al: <%- noleggi.al%>  </a>
+          
+          <form action="/users/cancellaNoleggio" method="POST"> 
+  
+            <input type="hidden" value="<%- noleggi.ID_noleggio%>" id="ID_noleggio" name="ID_noleggio">
+            <button style="margin: 2px; float: right;" 
+            type="submit"mt class="btn btn-outline-secondary -3" id = "button" name="button">Cancella Noleggio!
+          </button>
+          </form>
+              
+          
+      <form action="/users/mioNoleggio" method="POST">
+        <input type="hidden" value="<%- noleggi.ID_noleggio%>" id="ID_noleggio" name="ID_noleggio">
+        <a href="segnalaGuasto" class="btn btn-outline-secondary -3">Segnala Guasto</a>
+    
+        <button style="margin: 2px;"     
+        type="submit"mt class="btn btn-outline-secondary -3" id = "button" name="button">Modifica
+      </button>
+    
+    </form>
+  
+      </div>
+  
+  
+  
+          <br>
+     
+  
+          <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+  
+     
+    
+            
+          </body>
+                            
+        
+            <script>
+                dalString = '<%-noleggi.dal%>'
+            alString = '<%-noleggi.al%>'
+            dal = new Date(dalString).toLocaleString();
+            al = new Date(alString).toLocaleString();
+            document.getElementById('<%-noleggi.dal%>').innerText = 'Dal: ' + dal
+            document.getElementById('<%-noleggi.al%>').innerText = 'Al: ' + al
+          
+            </script>
+    
+
+  
+   

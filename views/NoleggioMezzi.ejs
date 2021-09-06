@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
     <%- include('partials/head') -%>
         <title>
           Noleggio
@@ -10,9 +10,11 @@
 
 </head>
 
+<main>
 <body>
+    <% include partials/navbar.ejs %>
     <div class="container">
-        <% include partials/navbar.ejs %>
+ 
         <div id="corpoPagina">
             <div class="contenutoPagina">
                 <div class="row">
@@ -22,9 +24,15 @@
                 </div>
             </div>
         </div>
-        <hr class="featurette-divider">
+        <hr class="featurette-divider"> </hr>
     
     </div>  
-    <% include partials/footer.ejs %> 
+
+</main>
+<br>
+<center><hr class ="col-sm-8"></center>
+<br>
+<% include partials/footer.ejs %> 
+
 </body>
 </html>

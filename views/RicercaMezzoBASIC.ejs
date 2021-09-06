@@ -3,27 +3,30 @@
 
 <head>
     <%- include('partials/head') -%>
-    <br>
         <title>
-            Ricerca Mezzo
+          Dati Mezzo
         </title>
 </head>
 
 <body>
+    <% include partials/navbar.ejs %>
             <div class="container">
-                <% include partials/navbar.ejs %>
+              
              
                 <div id="corpoPagina">
-                    <h3>Ricerca Mezzo</h3>
-                    <div class="formContainer">
-                                <% include partials/RicercaMezzo.ejs %>
-                    </div>
+                    <br>
+                    <br>
+                    <div class="form-Container">
+                                <% include partials/RicercaMezzo.ejs%>
+                                <hr class="featurette-divider">
+                    <br><br>
+                            </div>
                 </div>
-               
+           
             </div>
+            <br>
+            <center><hr class ="col-sm-8"></center>
+            <br>
             <% include partials/footer.ejs %>
-
            
 </body>
-
-</html>

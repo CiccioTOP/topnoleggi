@@ -9,20 +9,26 @@
 </head>
 
 <body>
+    <% include partials/navbar.ejs %>
             <div class="container">
-                <% include partials/navbar.ejs %>
+              
              
                 <div id="corpoPagina">
-                    <h3>Elenco Mezzi disponibili nel Parcheggio</h3>
+                    <h3>Elenco Mezzi del Parcheggio</h3>
                     <div class="formContainer">
                                 <% include partials/ElencoMezzi.ejs %>
                     </div>
                 </div>
-                <% include partials/footer.ejs %>
+          
             </div>
 
 
            
 </body>
+<center>
+<hr class = "col-sm-8"> 
+</center>
+<br>
+<% include partials/footer.ejs %>
 
 </html>

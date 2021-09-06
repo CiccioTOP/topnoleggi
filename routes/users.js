@@ -9,9 +9,13 @@ const crypto = require('crypto');
 const { config } = require('../db/config');
 const { makeDb, withTransaction } = require('../db/dbmiddleware');
 const { default: Swal } = require('sweetalert2');
+const { rootCertificates } = require('tls');
+const { syncBuiltinESMExports } = require('module');
+
 
 /* La rotta /users è vietata */
 router.get('/', function(req, res, next) {
+    
     next(createError(403));
 });
 
@@ -30,8 +34,6 @@ router.get('/eliminautente', eliminautente);
 router.post('/modificadati', modificadati);
 
 router.post('/mezzoform', modificamezzoform);
-
-router.post('/ricercaMezzo', ricercaMezzo);
 
 router.post('/Noleggio', noleggioMezzo);
 
@@ -55,11 +57,42 @@ router.get('/datiparcheggio', datiparcheggio);
 
 router.post('/AggiungiParcheggio', AggiungiParcheggio);
 
+router.post('/trovaIncarichi', trovaIncarichi)
+
+router.post('/accettaIncarico', accettaIncarico)
+
+router.post('/consegnato', consegnato);
+
+router.post('/ricercaMezzo', ricercaMezzo);
+
+router.post('/modificaMezzo', modificaMezzo);
+ 
+router.post('/cancellaMezzo', cancellaMezzo);
+
+router.get('/ricercaParcheggio', ricercaParcheggio);
+
+router.post('/ricercaParcheggio', ricercaParcheggio);
+
+router.post('/cancellaParcheggio', cancellaParcheggio);
+
 router.post('/SegnalaGuasto', SegnalaGuasto);
 
+router.get('/mieiIncarichi', mieiIncarichi);
+
+router.post('/cercaUtenze', cercaUtenze);
+
+router.post('/cercaNoleggio', cercaNoleggi);
+
+router.post('/cancellaNoleggio', cancellaNoleggio);
+
+router.get('/email', email);
+
+router.post('/RecuperoPassword', recuperoPassword);
+
+router.post('/ReimpostaPassword', ReimpostaPassword);
 
 
- //da cambiare 
+
 async function modificamezzoform(req, res, next) {
     const db = await makeDb(config);
     let results = {};
@@ -81,7 +114,10 @@ async function modificamezzoform(req, res, next) {
 
 // da aggiustare 
 async function eliminautente(req, res, next) {
+
+    
     const db = await makeDb(config);
+    if (req.session.utente.tipo_utente == 'Utente'){
     let results = {};
        if(req.session.utente.ID_utente){
       results = await db.query('DELETE FROM `utente` WHERE ID_utente = ?',
@@ -94,7 +130,27 @@ async function eliminautente(req, res, next) {
             req.session.destroy();
             res.redirect('/');
     }
-  }
+}
+else{
+
+    let results = {};
+    if(req.session.utente.ID_utente){
+   results = await db.query('DELETE FROM `utente` WHERE ID_utente = ?',
+[
+           utente.ID_utente
+       ])
+       .catch(err => {
+           throw err;
+         });
+      
+         res.redirect('/');
+ }
+}
+
+
+
+}
+  
 // da aggiustare 
 
 
@@ -112,8 +168,8 @@ async function registrazione(req, res, next) {
                 });
                 console.log(results.length);
             if (results.length != 0) {
-                console.log('Utente già registrato');
-                next(createError(404, 'Utente già registrato'));}
+                console.log('Utente già registarto');
+                next(createError(404, 'Utente già registarto'));}
     
           else{
      
@@ -126,6 +182,8 @@ async function registrazione(req, res, next) {
                 .catch(err => {
                     throw err;
                 });
+
+
 
             let encpwd = results[0].encpwd;
             let utente_type = "Utente";
@@ -155,6 +213,12 @@ async function registrazione(req, res, next) {
                 });
             console.log(`Utente ${req.body.email} inserito!`);
            
+
+            notifica = {
+                counter : 0,
+                string : 'registrazione effettuata'
+            };
+
                 res.redirect('/accedi');
                 
               
@@ -167,13 +231,11 @@ async function registrazione(req, res, next) {
 }
 }
 
-
-//fffffffffffffff
-
-
 async function modificadati(req, res, next) {
     const db = await makeDb(config); 
     let results = {};
+
+    if(req.session.utente.tipo_utente == 'Utente'){
     results = await db.query('SELECT * FROM `utente`\
             WHERE email = ? \
             EXCEPT \
@@ -248,15 +310,86 @@ async function modificadati(req, res, next) {
 }
 }
 
+else{
+    results = await db.query('SELECT * FROM `utente`\
+    WHERE email = ? \
+    EXCEPT \
+    SELECT * FROM `utente`\
+    WHERE ID_utente =? ', [
+            req.body.email,
+            req.session.utente.ID_utente
+        ])
+        .catch(err => {
+            throw err;
+        });
+        console.log(results.length);
+    if (results.length != 0) {
+        console.log('Email già in uso');
+        next(createError(404, 'Email già in uso'));}
 
-//fffffffffffffffffff
+  else{
+
+// inserimento utente
+try {
+await withTransaction(db, async() => { 
+
+    // generazione della password cifrata con SHA512
+    results = await db.query('SELECT sha2(?,512) AS encpwd', [req.body.pass]) //prende la password e applica la codifica sha2
+        .catch(err => {
+            throw err;
+        });
+
+    let encpwd = results[0].encpwd;
+    console.log('Password cifrata');
+    console.log(results);
+    if(req.session.utente){
+        results = await db.query('UPDATE utente SET nome = ?,cognome = ?, telefono = ?, cf = ?, patente = ?,  email= ?, password = ? WHERE ID_utente = ?',
+        [
+                 
+           
+            req.body.name,
+            req.body.firstname,
+            req.body.phone,
+            req.body.cf,
+            req.body.patente,
+            req.body.email,
+            encpwd,
+            utente.ID_utente
+        
+    ])
+        .catch(err => {
+            throw err;
+        });
+        utente.nome  = req.body.name,
+      utente.cognome  = req.body.firstname,
+      utente.telefono = req.body.phone,
+       utente.cf = req.body.cf,
+       utente.patente = req.body.patente
+       utente.email = req.body.email
+       res.redirect('/datiUtenteC');
+    }
+    
+});
+} catch (err) {
+var message =  'errore di sistema';
+next(createError(message));
+}
+}
+}
+}
+
 
 // middleware di autenticazione
 async function autenticazione(req, res, next) {
     const db = await makeDb(config);
     let results = {};
+   
     try {
 
+
+        error = {
+            myError : ''
+        };
         await withTransaction(db, async() => {
             // inserimento utente
             results = await db.query('SELECT * FROM `utente`\
@@ -267,8 +400,11 @@ async function autenticazione(req, res, next) {
                     throw err;
                 });
             if (results.length == 0) {
+                error = {
+                    myError : 'UNT'
+                };
                 console.log('Utente non trovato!');
-               res.redirect('/accedi_alert');
+               res.redirect('/accedi');
             } else {
                let pwdhash = crypto.createHash('sha512'); // istanziamo l'algoritmo di hashing
                 pwdhash.update(req.body.pass); // cifriamo la password
@@ -280,62 +416,71 @@ async function autenticazione(req, res, next) {
                 if (encpwd != results[0].password) {
                     // password non coincidenti
                     console.log('Password errata!');
-                    next(createError(403, 'Password errata'));
+                    error = {
+                        myError : 'PASS'
+                    };
+              res.redirect('/accedi')
                 } else {
                     
                     console.log('Utente autenticato');
                     console.log(results);
-                    // recupero dello user id
-                    // let id_utente = results[0].ID_UTENTE;
-
-                    // results = await db.query('SELECT `utente', [
-                    //         id_utente
-                    //     ])
-                    //     .catch(err => {
-                    //         throw err;
-                    //     });
-                    // req.session.utente.ID_utente = results[0].ID_utente,
-                  
-                    // req.session.utente.nome  = results[0].nome,
-                    // req.session.utente.cognome  = results[0].cognome,
-                    // req.session.utente.data_nascita = results[0].data_nascita,
-                    // req.session.utente.telefono = results[0].telefono,
-                    // req.session.utente.cf = results[0].cf,
-                    // req.session.utente.regione = results[0].regione,
-                    // req.session.utente.provincia = results[0].provincia,
-                    // req.session.utente.comune = results[0].comune,
-                    // req.session.utente.carta =results[0].carta,
-                    // req.session.utente.mese = results[0].mese,
-                    // req.session.utente.cvv =results[0].cvv,
-                    // req.session.utente.email = results[0].email,
-                    // req.session.utente.password = results[0].password
+                   
                     req.session.utente = results[0]
                      if (results[0].tipo_utente == "Utente"){
-                         result = await db.query('SELECT * from noleggio where ref_IDutente = (?)',[
+                         result = await db.query('SELECT * from noleggio where ref_IDutente = (?)  \
+                         ORDER BY noleggio.al ASC',[
                              req.session.utente.ID_utente
                          ])
+                         .catch(err => {
+                            throw err;
+                        });
                          if (result.length > 0) {
                          const today = new Date();
                              const end = result[0].al;
                              var diff = end - today;
                              var hours_rem = (diff / 86400000) * 24 ;
                              console.log(today,end, diff, hours_rem);
-                         if(hours_rem < 1){                            
-                         res.redirect('/users/mieiNoleggi')}}
+                         if(hours_rem <= 1 && hours_rem >= 0){                            
+                         res.redirect('/users/mieiNoleggi')
+                        console.log('load miei noleggi')}
                          else{
-                        res.redirect('/')
+
+                            notifica = {
+                                counter : 0,
+                                string : 'login'
+                            };
+                               
+                            
+                           res.redirect('/')
                         }
+                    
                     }
+                
+                    res.redirect('/')}
                         else if(results[0].tipo_utente == "Amministratore"){
-                          
+                            notifica = {
+                                counter : 0,
+                                string : 'login'
+                            };
+                               
+                                
                            res.redirect('/');}
                            else if(results[0].tipo_utente == "Autista"){
-                           
-                           res.redirect('/accedi');}
+                            notifica = {
+                                counter : 0,
+                                string : 'login'
+                            };
+                               
+                               
+                           res.redirect('/');}
                            else if(results[0].tipo_utente == "ImpiegatoParcheggio"){
-                           
-                           res.redirect('/ImpiegatoParcheggio');}
-                        
+                            notifica = {
+                                counter : 0,
+                                string : 'login'
+                            };
+                               
+                               
+                           res.redirect('/');} 
                 }
             }
         });
@@ -374,15 +519,31 @@ async function reg_amm(req, res, next) {
                     throw err;
                 });
 
+//gestione params autista
+
+var stato = '';
+var operatività = '';
+if (req.body.tipo_utente == 'Autista'){
+    stato = 'disponibile';
+    operatività = '';
+}
+
+
+ 
+
+
+
             let encpwd = results[0].encpwd;
             console.log('Password cifrata');
             console.log(results);
-            results = await db.query('INSERT INTO `utente` (tipo_utente,nome,cognome,data_nascita,telefono,cf,patente,regione,provincia,comune,email,password)\
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+            results = await db.query('INSERT INTO `utente` (tipo_utente,nome,cognome,stato,operatività, data_nascita,telefono,cf,patente,regione,provincia,comune,email,password)\
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         [
                     req.body.tipo_utente,
                     req.body.name,
                     req.body.firstname,
+                    stato,
+                    operatività,
                     req.body.Data_di_Nascita,
                     req.body.phone,
                     req.body.cf,
@@ -417,7 +578,21 @@ async function AggiungiMezzo(req, res, next) {
   
 
 let type = req.body.main_menu;
-console.log(type);
+let id_parcheggio = req.body.id_parcheggio;
+console.log(type, id_parcheggio);
+
+result = await db.query('select * from parcheggi where id_parcheggio = ?',[
+
+    id_parcheggio
+])
+
+.catch(err => {
+    throw err;
+});
+
+let comune = result[0].comune
+let indirizzo = result[0].indirizzo
+
 if (type == 'Bici' || type == 'Monopattino'){
     var cilindrata = 'none'
     var cavalli = 'none'
@@ -433,11 +608,11 @@ else{
 }
 
       
-           
-            results = await db.query('INSERT INTO `mezzi` (tipo_mezzo, modello,cilindrata,cavalli,targa,assicurazione,foto,descrizione,tariffa )\
-        VALUES (?,?,?,?,?,?,?,?,?)',
+           console.log('avvio query: ..')
+            results = await db.query('INSERT INTO `mezzi` (tipo_mezzo, modello,cilindrata,cavalli,targa,assicurazione,foto,descrizione,tariffa, ref_IDparcheggio , ref_comune, ref_indirizzo)\
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
         [
-                   
+         
             type,
             req.body.sub_menu,
                    cilindrata,
@@ -446,14 +621,22 @@ else{
                    assicurazione,
                    req.body.foto,
                    req.body.descrizione,
-                   req.body.tariffa
+                   req.body.tariffa,
+                   id_parcheggio,
+                   comune,
+                   indirizzo
                   
                 ])
                 .catch(err => {
                     throw err;
                 });
             console.log(`mezzo ${req.body.main_menu} inserito!`);
-           
+            notifica = {
+                counter : 0,
+                string : 'mezzo aggiunto'
+            };
+
+
                 res.redirect('/');
               
 
@@ -464,36 +647,6 @@ else{
     }
 }
 
-
-
-
-async function ricercaMezzo (req, res, next){
-    const db = await makeDb(config);
-    let results = {};
-    try {
-        await withTransaction(db, async() => {
-            results = await db.query('SELECT * \
-            FROM mezzi \
-            WHERE ID_mezzo = ?', [
-
-            req.body.ID_mezzo
-            
-            ])
-            .catch(err => {
-                throw err; 
-            });
- 
-            console.log(results[0]);
-      
-req.session.mezzo = results[0];
-   res.redirect('/DatiMezzo');
-    
-});
-} catch (err) {
-    var message =  'errore di sistema';
-    next(createError(message));
-}
-}
 
 
 
@@ -524,7 +677,7 @@ console.log(date1, date2,diff, hours);
 
 noleggio = {
     noleggio_autista : autista, 
-    noleggio_dove : req.body.dove,
+    noleggio_dove : req.body.town,
     noleggio_dal : req.body.dal,
     noleggio_al  : req.body.al,
     noleggio_diff : hours,
@@ -538,9 +691,23 @@ noleggio = {
 
 
     try{
-    await withTransaction(db, async() => {
-        results = await db.query('select * from mezzi where mezzi.tipo_mezzo = (?) AND ((mezzi.ID_mezzo not in (select ref_IDmezzo from noleggio)) or (mezzi.ID_mezzo not in (select ref_IDmezzo from noleggio where noleggio.dal > ? and noleggio.al < ?))) ', [            
+
+     
+
+
+await withTransaction(db, async() => {
+        results = await db.query('select * \
+                                  from `mezzi`\
+                                  where (mezzi.tipo_mezzo = (?) \
+                                  AND mezzi.ref_comune = (?)) \
+                                  AND (mezzi.ID_mezzo not in \
+                                                            (select ref_IDmezzo \
+                                                             from noleggio \
+                                                             where ? > noleggio.dal  \
+                                                             AND  ? < noleggio.al )) ', [            
+            
             req.body.Mezzo,
+            req.body.town,
             req.body.dal,
             req.body.al
         
@@ -557,13 +724,6 @@ noleggio = {
 
 req.session.mezzi = results;
 
-
-
-
-
-
-
-
 res.redirect('/NoleggioPT1');
 
 });
@@ -572,6 +732,7 @@ var message =  'errore di sistema';
 next(createError(message));
 }
 }
+
 
 async function NoleggioPT2 (req, res, next){
     const db = await makeDb(config);
@@ -597,14 +758,16 @@ req.session.mezzo = results[0];
 
 let mancia = noleggio.noleggio_mancia
 let tariffa = req.session.mezzo.tariffa ;
-let dove = noleggio.noleggio_dove;
+let dove = req.session.mezzo.ref_indirizzo;
+let comune = noleggio.noleggio_dove
 let dal = noleggio.noleggio_dal;
 let al = noleggio.noleggio_al;
 var prezzo = noleggio.noleggio_diff * tariffa + mancia;
+let foto = req.session.mezzo.foto
 console.log(prezzo);
 console.log(prezzo);
 let destinazione = noleggio.noleggio_destinazione;
-let autista = noleggio.noleggio_autista;
+let autista = noleggio.noleggio_autista; 
 
 console.log(tariffa,dove,dal,al,prezzo)
 
@@ -615,7 +778,9 @@ noleggioUP = {
  mezzo: req.session.mezzo.ID_mezzo,
  prezzo :  prezzo,
  destinazione : destinazione,
- autista : autista
+ autista : autista,
+ comune : comune,
+ foto : foto
 }
 
 console.log(noleggioUP)
@@ -667,8 +832,19 @@ pagamento = {
  async function NoleggioFine (req, res, next){
      const db = await makeDb(config);
      try {
+
+
+        if (noleggioUP.autista == 'no'){
+            var stato = 'accettato'
+            comune = noleggioUP.comune
+        } 
+
+        else{
+            var stato = 'in accettazione'
+           comune = noleggioUP.comune
+        }
          await withTransaction(db, async() => {
-             results = await db.query('insert into noleggio (ref_IDutente,carta,ref_IDmezzo,dal,al,autista,destinazione,dove) values (?,?,?,?,?,?,?,?)', [
+             results = await db.query('insert into noleggio (ref_IDutente,carta,ref_IDmezzo,dal,al,autista,destinazione,dove,stato,comune,prezzo,foto) values (?,?,?,?,?,?,?,?,?,?,?,?)', [
            req.session.utente.ID_utente,
            pagamento.P_carta,
             noleggioUP.mezzo,
@@ -676,7 +852,11 @@ pagamento = {
            noleggioUP.al,
            noleggioUP.autista,
            noleggioUP.destinazione,
-           noleggioUP.dove
+           noleggioUP.dove,
+           stato,
+           comune,
+           noleggioUP.prezzo,
+           noleggioUP.foto
             ])
             .catch(err => {
                 throw err; 
@@ -684,6 +864,10 @@ pagamento = {
  
             console.log(results[0]);
       
+            notifica = {
+                counter : 0,
+                string : 'noleggio effettuato'
+            };
 
     res.redirect('/');
     
@@ -699,18 +883,20 @@ pagamento = {
     let myID = req.session.utente.ID_utente;
     console.log(myID);
     try {
+
+        consegnatoString = 'consegnato'
         await withTransaction(db, async() => {
-            results = await db.query('select * from noleggio where noleggio.ref_IDutente = (?)', [
-myID
+            results = await db.query('select * from noleggio where noleggio.ref_IDutente = (?) AND noleggio.stato <> (?) ORDER BY noleggio.al ', [
+                  myID,
+                  consegnatoString
            ])
            .catch(err => {
                throw err; 
            });
 
- 
-    
-           req.session.mieiNoleggi = results;
 
+ if (results.length > 0){
+    
            const date = new Date(results[0].al);
 
           var y = date.getFullYear();
@@ -730,11 +916,19 @@ myID
             t_min : min,
             t_s : s
            }
-
+           req.session.mieiNoleggi = results;
 console.log(req.session.mieiNoleggi);
 
    res.redirect('/mieiNoleggi');
-   
+        }
+
+        else {
+timer= {}
+req.session.mieiNoleggi = results;
+console.log(req.session.mieiNoleggi);
+
+res.redirect('/mieiNoleggi')
+    }
 });
 } catch (err) {
     var message =  'errore di sistema';
@@ -748,7 +942,10 @@ async function mioNoleggio (req, res, next){
     let myIDnoleggio = req.body.ID_noleggio
     console.log(myID);
     try {
+
         await withTransaction(db, async() => {
+
+            if (req.session.utente.tipo_utente == 'Utente'){ 
             results = await db.query('select * from noleggio where noleggio.ref_IDutente = (?) and ID_noleggio = (?) ', [
 myID,
 myIDnoleggio
@@ -757,12 +954,36 @@ myIDnoleggio
                throw err; 
            });
 
- 
+
 req.session.mionoleggio = results[0];
 console.log(req.session.mionoleggio)
 
    res.redirect('/modificaNoleggio');
-   
+}
+
+
+//comunicazione ritardo di consegna da parte dell'autista
+else if (req.session.utente.tipo_utente == 'Autista'){ 
+    results = await db.query('select * from noleggio where noleggio.autista = (?) and id_noleggio = (?) ', [
+myID,
+myIDnoleggio
+   ])
+   .catch(err => {
+       throw err; 
+   });
+
+
+req.session.mionoleggio = results[0];
+console.log(req.session.mionoleggio)
+
+res.redirect('/modificaNoleggio');
+}
+
+
+else{
+    noleggio = results[0];
+    res.redirect('/landModNol')
+}
 });
 } catch (err) {
     var message =  'errore di sistema';
@@ -773,24 +994,43 @@ console.log(req.session.mionoleggio)
 
 async function ultimaModifica (req, res, next){
     const db = await makeDb(config);
-    let myID = req.session.utente.ID_utente;
+
+    if (req.session.utente.tipo_utente == 'Utente'){
     let myIDnoleggio = req.session.mionoleggio.ID_noleggio
-    console.log(myID,myIDnoleggio);
+    console.log(myIDnoleggio);
     try {
         await withTransaction(db, async() => {
-            results = await db.query('UPDATE noleggio set noleggio.dal = (?), noleggio.al = (?) where noleggio.ref_IDutente = (?) and ID_noleggio = (?) ', [
-req.body.dal,
-req.body.al,
-myID,
-myIDnoleggio
+
+
+mezzoo = await db.query('select * from mezzi where ID_mezzo = (?)',[
+
+    req.session.mionoleggio.ref_IDmezzo
+]).catch(err => {
+    throw err; 
+});
+
+console.log(mezzoo[0])
+var tariffaa = mezzoo[0].tariffa
+let date11 = new Date (req.body.dal).getTime();
+let date22 = new Date (req.body.al).getTime();
+let diff1 = (date22 - date11);
+hours1 = (diff1 / 86400000) * 24 ;
+var prezzo1 = hours1 * tariffaa
+
+console.log(req.body.dal,req.body.al,hours1,prezzo1)
+            results = await db.query('UPDATE noleggio set noleggio.dal = (?), noleggio.al = (?), noleggio.prezzo = (?), noleggio.dove = (?) where ID_noleggio = (?) ', [
+                req.body.dal,
+                req.body.al,
+                prezzo1,
+                req.body.Destinazione,
+                myIDnoleggio
            ])
            .catch(err => {
                throw err; 
            });
 
  
-           results1 = await db.query('select * from noleggio where noleggio.ref_IDutente = (?) and ID_noleggio = (?) ', [
-            myID,
+           results1 = await db.query('select * from noleggio where ID_noleggio = (?) ', [
             myIDnoleggio
                        ])
                        .catch(err => {
@@ -800,14 +1040,83 @@ myIDnoleggio
              
             req.session.mionoleggio = results1[0];
             console.log(req.session.mionoleggio)
+
+
+            notifica = {
+                counter : 0,
+                string : 'modifica effettuata'
+            };
             
+               res.redirect('/');
+
+
+               
+            });
+} catch (err) {
+    var message =  'errore di sistema';
+    next(createError(message));
+
+}
+}
+else{
+
+   
+    let myIDnoleggio = req.session.mionoleggio.ID_noleggio
+    console.log(myIDnoleggio);
+    try {
+        await withTransaction(db, async() => {
+
+
+mezzoo = await db.query('select * from mezzi where ID_mezzo = (?)',[
+
+    req.session.mionoleggio.ref_IDmezzo
+]).catch(err => {
+    throw err; 
+});
+
+console.log(mezzoo[0])
+var tariffaa = mezzoo[0].tariffa
+let date11 = new Date (req.body.dal).getTime();
+let date22 = new Date (req.body.al).getTime();
+let diff1 = (date22 - date11);
+hours1 = (diff1 / 86400000) * 24 ;
+var prezzo1 = hours1 * tariffaa
+
+console.log(req.body.dal,req.body.al,hours1,prezzo1)
+            results = await db.query('UPDATE noleggio set noleggio.dal = (?), noleggio.al = (?), noleggio.prezzo = (?) where ID_noleggio = (?) ', [
+                req.body.dal,
+                req.body.al,
+                prezzo1,
+                myIDnoleggio
+           ])
+           .catch(err => {
+               throw err; 
+           });
+
+ 
+           results1 = await db.query('select * from noleggio where ID_noleggio = (?) ', [
+
+            myIDnoleggio
+                       ])
+                       .catch(err => {
+                           throw err; 
+                       });
+            
+             
+            req.session.noleggio = results1[0];
+            console.log(noleggio)
+            notifica = {
+                counter : 0,
+                string : 'modifica effettuata'
+            };
                res.redirect('/');
                
             });
 } catch (err) {
     var message =  'errore di sistema';
     next(createError(message));
-}
+
+}}
 }
 
 
@@ -820,6 +1129,7 @@ var mezzo_auto = "si"
 }
 else{
     var mezzo_auto = "no";
+
 }
 if(req.body.mezzo_moto=="si"){
     var mezzo_moto = "si"
@@ -862,8 +1172,8 @@ if(req.body.mezzo_moto=="si"){
         await withTransaction(db, async() => { 
 
            
-            results = await db.query('INSERT INTO `parcheggi` (ref_IDimp, mezzo_auto, mezzo_moto, mezzo_bici, mezzo_monopattino, numero_auto, numero_moto, numero_bici, numero_monopattino, stato, descrizione, foto)\
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            results = await db.query('INSERT INTO `parcheggi` (ref_IDimp, mezzo_auto, mezzo_moto, mezzo_bici, mezzo_monopattino, numero_auto, numero_moto, numero_bici, numero_monopattino, stato, descrizione, foto,comune,indirizzo)\
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         [
             req.body.ref_IDimp,
             mezzo_auto,
@@ -876,10 +1186,9 @@ if(req.body.mezzo_moto=="si"){
             req.body.numero_monopattino,
             req.body.stato,
             req.body.descrizione,
-            req.body.regione,
-            req.body.provincia,
-            req.body.comune,
-            req.body.indirizzo
+            req.body.foto,
+            req.body.town,
+            req.body.Indirizzo
            
                    
                 ])
@@ -887,6 +1196,11 @@ if(req.body.mezzo_moto=="si"){
                     throw err;
                 });
             console.log(`parcheggio ${req.body.descrizione} inserito!`);
+
+            notifica = {
+                counter : 0,
+                string : 'parcheggio aggiunto'
+            };
                 res.redirect('/');
 
         });
@@ -952,15 +1266,15 @@ if(req.body.mezzo_auto=="si"){
                 else{
                     var mezzo_monopattino = "no";
                 }
-
+console.log('mezzo_auto')
     try {
         await withTransaction(db, async() => { 
             if(req.session.utente){
-                results = await db.query('UPDATE parcheggi SET mezzo_auto = ?, mezzo_moto = ?, mezzo_bici = ?, mezzo_monopattino = ?,\
+                results = await db.query('UPDATE parcheggi SET ref_IDimp = ?, mezzo_auto = ?, mezzo_moto = ?, mezzo_bici = ?, mezzo_monopattino = ?,\
                  numero_auto = ?, numero_moto = ?, numero_bici = ?, numero_monopattino = ?, stato = ?, descrizione = ?, foto = ? WHERE id_parcheggio = ?',
         
                  [
-                   
+                   req.body.ref_IDimp,
                      mezzo_auto,
                      mezzo_moto,
                      mezzo_bici,
@@ -972,25 +1286,29 @@ if(req.body.mezzo_auto=="si"){
                      req.body.stato,
                      req.body.descrizione,
                      req.body.foto,
-                     req.session.parcheggi.id_parcheggio
+                     req.session.parcheggio.id_parcheggio
                             
                          ])
                          .catch(err => {
                              throw err;
                             });
-                            req.session.parcheggi.mezzo_auto  = req.body.mezzo_auto,
-                           req.session.parcheggi.mezzo_moto  = req.body.mezzo_moto,
-                           req.session.parcheggi.mezzo_bici = req.body.mezzo_bici,
-                           req.session.parcheggi.mezzo_monopattino = req.body.mezzo_monopattino,
-                           req.session.parcheggi.numero_auto = req.body.numero_auto,
-                           req.session.parcheggi.numero_moto = req.body.numero_moto,
-                           req.session.parcheggi.numero_bici = req.body.numero_bici,
-                           req.session.parcheggi.numero_monopattino = req.body.numero_monopattino,
-                           req.session.parcheggi.stato = req.body.stato,
-                           req.session.parcheggi.descrizione = req.body.descrizione,
-                           req.session.parcheggi.foto = req.body.foto,
-                           req.session.parcheggi.id_parcheggio = req.body.id_parcheggio
-                           res.redirect('/');
+                            req.session.parcheggio.ref_IDimp = req.body.ref_IDimp,
+                            req.session.parcheggio.mezzo_auto  = req.body.mezzo_auto,
+                            req.session.parcheggio.mezzo_moto  = req.body.mezzo_moto,
+                            req.session.parcheggio.mezzo_bici = req.body.mezzo_bici,
+                            req.session.parcheggio.mezzo_monopattino = req.body.mezzo_monopattino,
+                            req.session.parcheggio.numero_auto = req.body.numero_auto,
+                            req.session.parcheggio.numero_moto = req.body.numero_moto,
+                            req.session.parcheggio.numero_bici = req.body.numero_bici,
+                            req.session.parcheggio.numero_monopattino = req.body.numero_monopattino,
+                            req.session.parcheggio.stato = req.body.stato,
+                            req.session.parcheggio.descrizione = req.body.descrizione,
+                            req.session.parcheggio.foto = req.body.foto,
+                            notifica = {
+                                counter : 0,
+                                string : 'parcheggio modificato'
+                            };
+                           res.redirect('/DatiParcheggioMod');
                         }
                 
                         
@@ -1036,20 +1354,7 @@ async function elencomezziParcheggio (req, res, next){
             results[0].id_parcheggio
             
              ])
-        // dati_ricerca = {
-        //     datacheckin: req.body.checkin,
-        //     datacheckout: req.body.checkout,
-        //     postiletto: req.body.postiletto
-        // console.log(results);
-    // dati_ricerca: dati_ricerca, inserzioni: results, resetfiltri: results
-    // console.log('Dati Mezzo:');
-    // console.log(results[0]);
-    // res.render('RisultatiMezzo', {
-    //     title: 'RisultatiMezzo',
-    //     Mezzo: {
-    //         mezzo: req.body.tipo_mezzo,
-    //         data: results[0] 
-    ///     }
+      
   });
   console.log(results);
     req.session.oggetto = results;
@@ -1067,82 +1372,697 @@ res.redirect('/elencomezziParcheggio');
 
 
 
-  async function ricercaParcheggio (req, res, next){
+ 
+
+  async function trovaIncarichi(req, res, next){
     const db = await makeDb(config);
     let results = {};
     try {
   
       myID = req.session.utente.ID_utente;
         console.log(myID);
+        string = 'in accettazione';
       await withTransaction(db, async() => {
             results = await db.query('SELECT * \
-            FROM parcheggi \
-            WHERE ref_IDimp = ?', [
+            FROM noleggio \
+            WHERE comune = ? AND (stato = ?)' , [
   
-            myID
+          req.body.town,
+          string
             
             ])
             .catch(err => {
                 throw err; 
             });
   
-
-            results1 = await db.query('SELECT * \
-            FROM mezzi \
-            WHERE ref_IDparcheggio = ? ',[
   
-            results[0].id_parcheggio
-            
-             ])
   });
   console.log(results);
-    req.session.oggetto = results;
-
-
-  req.session.mezziP = results1;
-  res.render("ElencoMezzi",{title : elencomezziParcheggio, utente_loggato: req.session.utente, parche:req.session.oggetto, mezzi: req.session.mezziP})
+    req.session.incarichi = results;
+    res.redirect('/incarichi');
   } catch (err) {
     var message =  'errore di sistema';
     next(createError(message));
   }
   }
 
+  async function accettaIncarico(req,res,next){
+const db = await makeDb(config);
 
-  async function SegnalaGuasto(req, res, next) {
-    const db = await makeDb(config); 
-    let results = {};
+accettato = 'accettato'
+try{
+ accetta = await db.query('UPDATE noleggio set noleggio.stato = (?), noleggio.autista = (?)  WHERE noleggio.id_noleggio = (?)  ',[
 
-     
-// registrazione guasto
-    try {
-        await withTransaction(db, async() => { 
+accettato,
+req.session.utente.ID_utente,
+req.body.ID_noleggio
 
-            console.log(results);
-            results = await db.query('INSERT INTO `guasti` (ID_mezzo, descrizione_guasto, foto_guasto) VALUES (?,?,?)',
-        [
-                    req.body.ID_mezzo, 
-                    req.body.descrizione_guasto,
-                    req.body.foto_guasto
+ ]).catch(err => {
+    throw err; 
+});
+
+statoString = 'in corsa'
+stato = await db.query('Update utente set utente.stato = (?) WHERE ID_utente = (?)',[
+
+statoString,
+req.session.ID_utente
+
+
+])
+    
+notifica = {
+    counter : 0,
+    string : 'incarico accettato'
+};
+
+
+res.redirect('/')
+
+
+} catch(err) {
+    var message = 'errore di sistema';
+    next(createError(message));
+}
+  }
+
+
+
+
+  async function consegnato(req,res,next){
+    const db = await makeDb(config);
+    
+    Stringconsegnato = 'consegnato'
+    let date = new Date();
+    try{
+     consegna = await db.query('UPDATE noleggio set noleggio.stato = (?), noleggio.al = (?) WHERE noleggio.id_noleggio = (?)  ',[
+    
+    Stringconsegnato,
+    date,
+    req.body.ID_noleggio
+    
+     ]).catch(err => {
+        throw err; 
+    });
+    
+    notifica = {
+        counter : 0,
+        string : 'consegna effettuata'
+    };
+
+    res.redirect('/')
+    
+    
+    } catch(err) {
+        var message = 'errore di sistema';
+        next(createError(message));
+    }
+      }
+    
+      async function ricercaMezzo (req, res, next){
+        const db = await makeDb(config);
+        let results = {};
+        error = {}
+        try {
+            await withTransaction(db, async() => {
+                results = await db.query('SELECT * \
+                FROM mezzi \
+                WHERE ID_mezzo = ?', [
+    
+                req.body.ID_mezzo
+                
                 ])
                 .catch(err => {
-                    throw err;
+                    throw err; 
                 });
-            console.log(`Guasto segnalato!`);
-           
-                res.redirect('/impiegatoparcheggio');
-                
-
-        });
+     
+                console.log(results[0]);
+        if (results.length < 1){
+            error = {
+                myError : 'MI'
+                }
+            res.redirect('/RicercaMezzoBASIC');
+        }
+    req.session.mezzo = results[0];
+   
+     res.redirect('/DatiMezzo')
+        
+    });
     } catch (err) {
         var message =  'errore di sistema';
         next(createError(message));
     }
+    }
+
+    async function modificaMezzo(req,res,next){
+const db = await makeDb(config);
+try{
+    await withTransaction(db, async() => {
+        modifica = await db.query('UPDATE mezzi set targa = ?, assicurazione = ?, tariffa = ?, foto = ?, descrizione = ?\
+                                   WHERE ID_mezzo = ?', [
+
+                                    req.body.targa,
+                                    req.body.assicurazione,
+                                    req.body.tariffa,
+                                    req.body.foto,
+                                    req.body.descrizione,
+                                    req.session.mezzo.ID_mezzo
+                                   ]).catch(err => {
+                                    throw err; 
+                                });
+
+                                req.session.mezzo.targa =  req.body.targa,
+                                req.session.mezzo.assicurazione =  req.body.assicurazione,
+                                req.session.mezzo.tariffa = req.body.tariffa,
+                                req.session.mezzo.foto = req.body.foto,
+                                req.session.mezzo.descrizione = req.body.descrizione
+
+                                notifica = {
+                                    counter : 0,
+                                    string : 'mezzo modificato'
+                                };
+
+                                res.redirect('/DatiMezzo')
+
+});
+
+}catch (err) {
+    var message =  'errore di sistema';
+    next(createError(message));
 }
-// }
+}
+
+
+async function cancellaMezzo(req,res,next){
+    const db = await makeDb(config);
+    try{
+        await withTransaction(db, async() => {
+            modifica = await db.query('DELETE \
+                                       FROM mezzi \
+                                       WHERE ID_mezzo = ?', [
+    
+                                    
+                                        req.session.mezzo.ID_mezzo
+                                       ]).catch(err => {
+                                        throw err; 
+                                    });
+    
+                                    res.redirect('/')
+    
+    });
+    
+    }catch (err) {
+        var message =  'errore di sistema';
+        next(createError(message));
+    }
+    }
+
+    async function ricercaParcheggio(req,res,next){
+        const db = await makeDb(config);
+        error = {}
+        try{
+            await withTransaction(db, async() => {
+if (req.session.utente.tipo_utente == 'ImpiegatoParcheggio'){
+
+    ricerca = await db.query('select * from parcheggi where ref_IDimp = (?) ',[
+
+        req.session.utente.ID_utente
+    ]).catch(err => {
+        throw err; 
+    });
+    req.session.parcheggio = ricerca[0];
+    res.redirect('/DatiParcheggioMod')
+}
+
+else{
+                
+                ricerca = await db.query('SELECT * \
+                                           FROM parcheggi \
+                                           WHERE id_parcheggio = ?', [
+        
+                                        
+                                            req.body.ID_parcheggio
+
+                                           ]).catch(err => {
+                                            throw err; 
+                                        });
+
+                                        if (ricerca.length < 1){
+                                            error = {
+                                                myError : 'MI'
+                                                }
+                                            res.redirect('/ricercaParcheggio');
+                                        }
+        req.session.parcheggio = ricerca[0];
+                                        res.redirect('/DatiParcheggioMod')
+                                    }        
+        });
+        
+        }catch (err) {
+            var message =  'errore di sistema';
+            next(createError(message));
+        }
+        }
+    
+
+        async function cancellaParcheggio(req,res,next){
+            const db = await makeDb(config);
+            try{
+                await withTransaction(db, async() => {
+                    cancellaPar = await db.query('DELETE FROM `parcheggi` WHERE `parcheggi`.`id_parcheggio` = ?', [
+            
+                                            
+                                                parcheggio.id_parcheggio
+                                               ]).catch(err => {
+                                                throw err; 
+                                            });
+            
+                                            res.redirect('/')
+            
+            });
+            
+            }catch (err) {
+                var message =  'errore di sistema';
+                next(createError(message));
+            }
+            }
+
+
+            async function SegnalaGuasto(req, res, next) {
+                const db = await makeDb(config); 
+                let results = {};
+            
+                 
+      
+                try {
+                    await withTransaction(db, async() => { 
+            
+
+results = await db.query('select * from mezzi where ID_mezzo = (?) ',
+[
+        req.body.ID_mezzo, 
+    
+    ])
+    .catch(err => {
+        throw err;
+    });
+    if (results.length <1){
+        notifica = {
+            counter : 0,
+            string : 'ERRORE'
+        };
+
+        res.redirect('/SegnalaGuasto')
+    }
+else{    
+
+                        console.log(results);
+                        results = await db.query('INSERT INTO `guasti` (ID_mezzo, descrizione_guasto, foto_guasto) VALUES (?,?,?) ',
+                    [
+                                req.body.ID_mezzo, 
+                                req.body.descrizione_guasto,
+                                req.body.foto_guasto
+                            ])
+                            .catch(err => {
+                                throw err;
+                            });
+
+
+                        console.log(`Guasto segnalato!`);
+
+                        if (req.session.utente.tipo_utente == 'Utente'){
+                            notifica = {
+                                counter : 0,
+                                string : 'guasto segnalato'
+                            };
+                            res.redirect('/');
+                        }
+                        else{
+                            notifica = {
+                                counter : 0,
+                                string : 'guasto segnalato'
+                            };
+                            res.redirect('/');
+                        }}   
+            
+                    });
+                } catch (err) {
+                    var message =  'errore di sistema';
+                    next(createError(message));
+                }
+            }
+
+
+async function mieiIncarichi(req,res,next){
+    const db = await makeDb(config);
+    let myID = req.session.utente.ID_utente;
+    console.log(myID);
+    try {
+
+        statoString = 'accettato'
+        await withTransaction(db, async() => {
+            results = await db.query('select * from noleggio where noleggio.autista = (?) AND noleggio.stato = (?) ORDER BY noleggio.al ', [
+                  req.session.utente.ID_utente,
+                  statoString
+           ])
+           .catch(err => {
+               throw err; 
+           });
+
+
+ if (results.length > 0){
+    
+           const date = new Date(results[0].al);
+
+          var y = date.getFullYear();
+          var m = date.getMonth();
+          var d = date.getUTCDate();
+          var h = date.getHours();
+          var min = date.getMinutes();
+          var s = date.getSeconds();
+           console.log(date,y,m,d,h,min,s);
+
+           timer = {
+
+            t_y : y,
+            t_m : m,
+            t_d : d,
+            t_h : h,
+            t_min : min,
+            t_s : s
+           }
+           req.session.noleggio = results;
+console.log (req.session.noleggio);
+
+   res.redirect('/mieiIncarichi');
+        }
+
+        else {
+timer= {}
+req.session.noleggio = results;
+console.log(  req.session.noleggio);
+
+res.redirect('/mieiIncarichi')
+    }
+});
+} catch (err) {
+    var message =  'errore di sistema';
+    next(createError(message));
+}
+}
+
+async function cercaUtenze(req, res, next) {
+    const db = await makeDb(config);
+    let results = {};
+   
+    try {
+
+
+        error = {
+            myError : ''
+        };
+        await withTransaction(db, async() => {
+
+            results = await db.query('SELECT * FROM `utente`\
+            WHERE ID_utente = (?)', [
+                    
+
+                req.body.ID_utente
+                ])
+                .catch(err => {
+                    throw err;
+                });
+            if (results.length == 0) {
+                error = {
+                    myError : 'MI'
+                };
+                console.log('Utente non trovato!');
+               res.redirect('/cercaUtenze');
+            }
+           
+          
+                  else{
+                    
+                    console.log('Utente Trovato');
+                    console.log(results);
+                   
+                    utente = results[0]
+                res.redirect('/datiUtenteC');
+                  }   
+                    
+                
+                  
+                        
+               
+            
+        });
+    } catch (err) {
+        console.log(err);
+        next(createError(500));
+    }
+}
+
+async function cercaNoleggi(req, res, next) {
+    const db = await makeDb(config);
+    let results = {};
+   
+    try {
+
+
+        error = {
+            myError : ''
+        };
+        await withTransaction(db, async() => {
+
+            results = await db.query('SELECT * FROM `noleggio`\
+            WHERE ID_noleggio = (?)', [
+                    
+
+                req.body.ID_noleggio
+                ])
+                .catch(err => {
+                    throw err;
+                });
+            if (results.length == 0) {
+                error = {
+                    myError : 'MI'
+                };
+                console.log('Noleggio non trovato!');
+               res.redirect('/cercaNoleggio');
+            }
+           
+          
+                  else{
+                    
+                    console.log('Noleggio Trovato');
+                    console.log(results);
+                   
+                    req.session.noleggio = results[0]
+                res.redirect('/datiNoleggioC');
+                  }   
+                    
+                
+                  
+                        
+               
+            
+        });
+    } catch (err) {
+        console.log(err);
+        next(createError(500));
+    }
+}
+
+async function cancellaNoleggio(req,res,next){
+    const db = await makeDb(config);
+    try{
+        await withTransaction(db, async() => {
+            cancellaNol = await db.query('DELETE FROM `noleggio` WHERE ID_noleggio = ?', [
+    
+                                    
+                                        req.body.ID_noleggio
+                                       ]).catch(err => {
+                                        throw err; 
+                                    });
+    
+                                    res.redirect('/users/mieiNoleggi')
+    
+    });
+    
+    }catch (err) {
+        var message =  'errore di sistema';
+        next(createError(message));
+    }
+    }
 
 
 
 
+// prova email
+async function email(req,res,next){
+    var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: '0topnoleggi0@gmail.com',
+    pass: 'Dario123.'
+  }
+});
+
+var mailOptions = {
+  from: '0topnoleggi0@gmail.com',
+  to: 'dariobirtone@icloud.com',
+  subject: 'Sending Email using Node.js, go there http://localhost:3000/',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 
 
+res.redirect('/')
+}
+
+// email per il recupero password
+async function recuperoPassword(req,res,next){
+    const db = await makeDb(config);
+    let results = {};
+    const toEmail = req.body.email 
+    try {
+
+        await withTransaction(db, async() => {
+
+           
+
+            results = await db.query('SELECT * FROM `utente`\
+            WHERE email = (?)', [
+                    
+
+                toEmail
+                ])
+                .catch(err => {
+                    throw err;
+                });
+console.log(results)
+                if (results.length < 1 ){
+                    notifica = {
+                        string : 'UNT',
+                        counter : 0
+                    }
+                    res.redirect('/recuperoPassword')
+                }
+                    else{
+                        
+                        var tkn = Math.floor(Math.random() * 99999);
+                        result = db.query('UPDATE utente set tkn = ? WHERE utente.email = ? ',[
+                            tkn,
+                            toEmail
+                        ]).catch(err => {
+                            throw err;
+                        });
+                
+                        var nodemailer = require('nodemailer');
+                
+               
+                
+                        var transporter = nodemailer.createTransport({
+                          service: 'gmail',
+                          auth: {
+                            user: '0topnoleggi0@gmail.com',
+                            pass: 'Dario123.'
+                          }
+                        });
+                        
+                        var mailOptions = {
+                          from: '0topnoleggi0@gmail.com',
+                          to: toEmail,
+                          subject: 'no-reply, Top Noleggi Recupero Password',
+                          text:  'Per recuperare la tua password vai qui: http://localhost:3000/ReimpostaPassword inserendo il seguente tkn: ' + tkn}
+                        
+                        transporter.sendMail(mailOptions, function(error, info){
+                          if (error) {
+                            console.log(error);
+                          } else {
+                            console.log('Email sent: ' + info.response);
+                          }
+                        });
+                        
+                        notifica = {
+                            string : 'mail inviata',
+                            counter : 0
+                        }
+                        res.redirect('/')
+                        }});
+                    }catch (err) {
+                        var message =  'errore di sistema';
+                        next(createError(message));
+                    }
+                    }
+                    
+
+
+//reimposta password
+async function ReimpostaPassword(req,res,next){
+    const db = await makeDb(config);
+tkn = Math.floor(Math.random() * 9999)
+const toEmail = req.body.email 
+    try {
+
+        await withTransaction(db, async() => {
+
+           
+
+            results = await db.query('SELECT * FROM `utente`\
+            WHERE email = (?)', [
+                    
+
+                toEmail
+                ])
+                .catch(err => {
+                    throw err;
+                });
+console.log(results)
+                if (results.length < 1 ){
+                    notifica = {
+                        string : 'UNT',
+                        counter : 0
+                    }
+                    res.redirect('/recuperoPassword')
+                }
+                    else{
+  // generazione della password cifrata con SHA512
+  results = await db.query('SELECT sha2(?,512) AS encpwd', [req.body.pass]) //prende la password e applica la codifica sha2
+  .catch(err => {
+      throw err;
+  });
+
+
+
+let encpwd = results[0].encpwd;
+
+    results = await db.query('UPDATE utente set password = ?, tkn = ? where email = ? ', [
+encpwd,
+tkn,
+req.body.email
+
+
+
+    ]).catch(err => {
+        throw err;
+    });
+
+res.redirect('/')
+
+}});
+}catch (err) {
+    var message =  'errore di sistema';
+    next(createError(message));
+}
+}                    
+                
 module.exports = router;

@@ -3,7 +3,7 @@
 /* Padding below the footer and lighter body text */
 
 body {
-  padding-top: 3rem;
+ 
   color: #5a5a5a;
 background: url(../images/background.png) no-repeat fixed center;
 background-size: cover;
@@ -205,6 +205,13 @@ background-size: cover;
  padding-left: 100;
 }
 
+/* btn style*/
+
+#procedi-btn{
+  float: right;
+}
+
+
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -234,104 +241,199 @@ background-size: cover;
 
 /* Add a black background color to the top navigation */
 /* Style the links inside the navigation bar */
-.topnav a {
+
+/* 
+$content-width will be the max width of the content within the navigation bar. 
+$breakpoint determines at which width the media query breakpoint will take effect.
+*/
+
+body {
+  background-color: black;
+}
+nav {
+ float: left;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+}
+nav ul li {
   float: left;
+  position: relative;
+  padding: 0px 10px 0px 10px;
+}
+nav ul li a {
   display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
+  padding: 0 2px;
+  line-height: 70px;
+  background: black;
+  color: white;
   text-decoration: none;
-  font-size: 17px;
+  /*
+  The full path of this code is nav ul li a:not(:only-child):after. This means that the code will apply to any a tag in our nav list that is NOT an only child, aka any dropdown. The :after means it comes after the output of the tag. I’ve decided that to specify any nav item as a dropdown, it will be followed by a unicode arrow – ▾ (#9662).
+  */
+}
+nav ul li a:hover {
+  background: #f2f2f2;
+  color: #fb5958;
+}
+nav ul li a:not(:only-child):after {
+  padding-left: 4px;
+  content: ' ▾';
 }
 
-/* Hide the link that should open and close the topnav on small screens */
-.topnav .icon {
+nav ul li ul li {
+  min-width: 220px;
+}
+nav ul li ul li a {
+  padding: 15px;
+  line-height: 20px;
+}
+
+.nav-dropdown {
+  position: absolute;
+  z-index: 1;
+  /* Guarantees that the dropdown will display on top of any content. */
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
   display: none;
 }
 
-/* Dropdown container - needed to position the dropdown content */
-.dropdown {
-  float: left;
-}
-
-/* Style the dropdown button to fit inside the topnav */
-.dropdown .dropbtn {
-  font-size: 17px;
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-}
-
-/* Style the dropdown content (hidden by default) */
-.dropdown-content {
+.nav-mobile {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  top: 0;
+  right: 0;
+  background: black;
+  height: 70px;
+  width: 70px;
 }
 
-/* Style the links inside the dropdown */
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
+@media only screen and (max-width: 800px) {
+  .nav-mobile {
+    display: block;
+    
+  }
 
-/* Add a dark background on topnav links and the dropdown button on hover */
-.topnav a:hover, .dropdown:hover .dropbtn {
-  background-color: #555;
-  color: white;
-}
-
-/* Add a grey background to dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Show the dropdown menu when the user moves the mouse over the dropdown button */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
-  .topnav a:not(:first-child), .dropdown .dropbtn {
+  nav {
+    width: 100%;
+    padding: 0px 0 15px;
+    background: black;
+  }
+  nav ul {
     display: none;
   }
-  .topnav a.icon {
-    float: right;
-    display: block;
+  nav ul li {
+    
+    float: none;
   }
+  nav ul li a {
+    padding: 15px;
+    line-height: 20px;
+  }
+  nav ul li ul li a {
+    
+    padding-left: 30px;
+  }
+
+  .brand {
+    position: relative;
+   
+    float: left;
+    line-height: 70px;
+   margin-left: 10px;
+    font-size: 1.4em;
+  }
+  .brand a,
+  .brand a:visited {
+    color: #463f3f;
+    text-decoration: none;
+  }
+
+
+}
+#nav-toggle {
+  position: absolute;
+  left: 18px;
+  top: 22px;
+  cursor: pointer;
+  padding: 10px 35px 16px 0px;
+}
+#nav-toggle span,
+#nav-toggle span:before,
+#nav-toggle span:after {
+  cursor: pointer;
+  border-radius: 1px;
+  height: 5px;
+  width: 35px;
+  background: white;
+  position: absolute;
+  display: block;
+  content: '';
+  transition: all 300ms ease-in-out;
+}
+#nav-toggle span:before {
+  top: -10px;
+}
+#nav-toggle span:after {
+  bottom: -10px;
+}
+#nav-toggle.active span {
+  background-color: transparent;
+}
+#nav-toggle.active span:before, #nav-toggle.active span:after {
+  top: 0;
+}
+#nav-toggle.active span:before {
+  transform: rotate(45deg);
+}
+#nav-toggle.active span:after {
+  transform: rotate(-45deg);
 }
 
-/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 600px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive a.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
+
+
+@media screen and (min-width: 800px) {
+
+
+
+  .nav-list {
+    display: block !important;
+
+    
   }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
+  .brand {
+    position: relative;
+   margin-left: -140px;
+    float: left;
+    line-height: 70px;
+  
+    font-size: 1.4em;
   }
-  .topnav.responsive .dropdown {float: none;}
-  .topnav.responsive .dropdown-content {position: relative;}
-  .topnav.responsive .dropdown .dropbtn {
-    display: block;
-    width: 100%;
-    text-align: left;
+  .brand a,
+  .brand a:visited {
+    color: #463f3f;
+    text-decoration: none;
   }
+  
+
 }
+/* 
+.navigation – the outer wrapper for the navbar. Specifies the height and color, and will stretch the full width of the viewport.
+*/
+.navigation {
+  height: 70px;
+  background:black;
+}
+
+/*
+.nav-container – the inner wrapper for the navbar. Defines how far the actual content should stretch.
+*/
+.nav-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+

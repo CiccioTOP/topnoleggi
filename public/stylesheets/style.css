@@ -83,7 +83,7 @@ li {
 	background-color: #000;
 	text-transform: uppercase;
   }
-  
+
 
   /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
   @media screen and (max-width: 500px) {

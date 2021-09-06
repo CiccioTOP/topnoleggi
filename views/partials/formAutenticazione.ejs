@@ -1,4 +1,4 @@
-<%- include('partials/navbar') -%>
+
 
 <%- include('partials/head') -%>
 <center>
@@ -10,23 +10,78 @@
          <div class="form-group">
            <label for="email">Email</label>
            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+           <error  style="color: red;" id="UNTError"></error>
          </div>
          <div class="form-group">
            <label for="pass">Password</label>
            <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+           <error style="color: red;" id="passError"></error>
          </div>
-         <div class="form-row">
-           <div class="form-group">
-             <small class="form-text text-muted">
-               <a href="registrati"> Non sei registrato? Clicca qui.</a> &nbsp;&nbsp;
-             </small>
-           </div>
-           <div class="form-group">
-             <button  name="ok" id="ok" class="btn btn-outline-secondary btn-sm" type="submit"> Accedi </button>
-           </div>
-         </div>
+  
+               <a href="registrati">Non sei registrato? Clicca qui.</a> 
+               <a href="recuperoPassword">Recupero Password.</a> 
+          
+             <br>
+        <br>
+         
+       
+         <button  name="ok" id="ok" class="btn btn-outline-secondary btn-sm" type="submit"> Accedi </button>
        </form>
      </div>
   </div>
 </center>
+<br>
+<a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+<script>
+MyerrorHandler = '<%-ErrorHandler.myError%>'
+if(MyerrorHandler == 'UNT'){
+  document.getElementById('UNTError').innerHTML = 'Utente non trovato'
+}
+else if(MyerrorHandler == 'PASS'){
+  document.getElementById('passError').innerHTML = 'Password errata'
+}
+
+else{}
+
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+    if (notifica == 'registrazione effettuata' && counter == 0 ){
+  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Registrazione effettuata con successo'
+                    })}
+                   
+                   {
+                     
+                   }}
+
+
+</script>
 

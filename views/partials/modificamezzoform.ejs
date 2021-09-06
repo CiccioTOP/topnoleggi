@@ -1,65 +1,39 @@
-<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/mezzoform">
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/modificaMezzo">
 
     <body>
-        <div class="form-group">
-            <label for="idMezzo">ID Mezzo *</label>
-            <input id="idMezzo" name="idMezzo" type="number" class="form-control" maxlength="40" required />
-
-        </div>
-        <div class="form-group">
-            <label for="tipoMezzo">Tipo di mezzo *</label>
-            <input id="tipoMezzo" name="tipoMezzo" type="text" class="form-control" maxlength="40" required />
-
-        </div>
-
-        <div class="form-group">
-            <label for="modello">Modello *</label>
-            <input name="modello" id="modello" type="text" class="form-control" size="32" maxlength="40" required />
-        </div>
-
-        <div class="form-group">
-            <label for="cilindrata">Cilindrata *</label>
-            <input name="cilindrata" id="cilindrata" type="number" class="form-control" size="32" maxlength="4"
-                required />
-        </div>
-
-        <div class="form-group">
-            <label for="cavalli">Cavalli *</label>
-            <input name="cavalli" id="cavalli" type="number" class="form-control" size="32" maxlength="3" required />
-        </div>
-
+    
         <div class="form-group">
             <label for="targa">Targa *</label>
-            <input name="targa" id="targa" type="text" class="form-control" size="32" maxlength="10" required />
+            <input name="targa" id="targa" type="text" class="form-control" size="32" maxlength="10" required value=" <%- mezzo.targa %>" />
         </div>
 
         <div class="form-group">
             <label for="assicurazione">Assicurazione *</label>
             <input name="assicurazione" id="assicurazione" type="boolean" class="form-control" size="10" maxlength="40"
-                required />
+                required value="<%-mezzo.assicurazione%>" required/>
+        </div>
+
+      
+        <div class="form-group">
+            <label for="tariffa">Tariffa orario *</label>
+            <input name="tariffa" id="tariffa" type="number" class="form-control" size="32" maxlength="10" required value="<%- mezzo.tariffa %>" />
         </div>
 
         <div class="form-group">
             <label for="foto">Foto *</label>
-            <input name="foto" id="foto" type="image" class="form-control" size="32" maxlength="40" required />
+            <input name="foto" id="foto" type="file" accept="image/*" class="form-control" size="32" maxlength="40" required value="<%-mezzo.foto%>"/>
         </div>
+
 
         <div class="form-group">
             <label for="descrizione">Breve descrizione *</label>
-            <input name="descrizione" id="descrizione" type="text" class="form-control" size="32" maxlength="500"
-                required />
+            <textarea name="descrizione" id="descrizione" type="input" class="form-control" rows = "5" cols = "60"
+                required value="<%- mezzo.descrizione %>"></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="tariffa">Tariffa al minuto *</label>
-            <input name="tariffa" id="tariffa" type="number" class="form-control" size="32" maxlength="10" required />
-        </div>
+        <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+            <button style = "float: right;"name="ok" id="ok" type="submit" class="btn btn-outline-secondary mt-3">Conferma</button>
+        </form>
+            
 
-
-        <center>
-            <button name="ok" id="ok" type="submit" class="btn btn-outline-secondary mt-3">Conferma</button>
-            <button name="cancella" id="cancella" type="submit" class="btn btn-outline-secondary mt-3">Cancella
-                mezzo</button>
-        </center>
-</form>
 </body>

@@ -9,8 +9,9 @@
 </head>
 
 <body>
+    <% include partials/navbar.ejs %>
             <div class="container">
-                <% include partials/navbar.ejs %>
+          
              
                 <div id="corpoPagina">
                     <br>
@@ -22,14 +23,16 @@
                 </div>
                
             </div>
+
+            <br>
+<center>
+<hr class = 'col-sm-8'> 
+</center>
+<br>
             <% include partials/footer.ejs %>
             
             <script src="/javascripts/formval.js"></script>
-            <script>
-                var today = new Date().toISOString().split('T')[0];
-                document.getElementsByName("birthdate")[0].setAttribute('max', today);
-                
-            </script>
+
            
 </body>
 
