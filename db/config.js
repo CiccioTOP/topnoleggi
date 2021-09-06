@@ -7,7 +7,6 @@ exports.config = {
   user: 'dario',
   password: 'dario123',
   database: 'provadb',
-  port: 8889,
   multipleStatements: true // consente query multiple in un'unica istruzione SQL
  
 }
