@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') -%>
+    <title>TopNoleggi</title>
+
+
+
+  </head>
+  <body>
+    
+<header>
+  
+ 
+  
+</header>
+
+<main>
+
+  <% include partials/navbar.ejs %>
+  
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class = overlay_img> </div>
+   
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1>Le migliori auto che troverete.</h1>
+            <p>Non perdere tempo!</p>
+            <p><a id="myP1" class="btn btn-lg btn-primary" href="registrati">Registrati Ora!</a></p>
+          </div>
+        </div>
+      </div>
+            <div class="carousel-item ">
+              <div class=overlay_img1> </div>
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>Perche fermarsi ad un auto quando puoi sfrecciare a 2 ruote</h1>
+                  <p>Vi garantiamo il miglior servizio di noleggio in circolazione</p>
+                 
+                </div>
+              </div>
+            </div>
+      <div class="carousel-item " >
+        <div class = overlay_img2> </div>
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Montagna o città?</h1>
+            <p>Le nostro biciclette vi faranno impazzire!</p>
+
+          </div>
+        </div>  
+      </div>
+      <div class="carousel-item">
+        <div class = overlay_img3> </div>
+       
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1>Monopattini ergonomici e pratici da usare.</h1>
+            <p>Vi aspettiamo!</p>
+<!--             <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p> -->
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Precedente</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Prossima</span>
+    </button>
+  </div>
+
+
+  <!-- Marketing messaging and featurettes
+  ================================================== -->
+  <!-- Wrap the rest of the page in another container to center all the content. -->
+
+  <div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+      <div class="col-lg-4">
+        <svg class="ba-placeholder-img"></svg>
+
+        <h2>Servizio Autista</h2>
+        <p>Garantito per chi lo richiede con un noleggio di un auto </p>
+<!--         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p> -->
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        
+        <svg class="bb-placeholder-img" ></svg>
+
+        <h2>Dove desideri</h2>
+        <p>Ritiro e consegna anche al di fuori dei parcheggi</p>
+        
+<!--         <p><a class="btn btn-secondary"  href="#">View details &raquo;</a></p> -->
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg class="bc-placeholder-img " ></svg>
+        <!-- width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text> -->
+
+        <h2>Parcheggi</h2>
+        <p>Parcheggi localizzati in tutte le città dove ritirare o lasciare il mezzo noleggiato</p>
+<!--         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p> -->
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+    
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Nuove collezioni <span class="text-muted">Fuori di testa.</span></h2>
+        <p class="lead">Corri e noleggia subito la tua auto sportiva per chi ama il brivido o un auto elegante per le occasioni speciali.</p>
+      </div>
+      <div class="col-md-5">
+        
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">Auto ingombranti? <span class="text-muted">NESSUN PROBLEMA.</span></h2>
+        <p class="lead">Offriamo le migliori moto sul mercato ed esaudiamo tutti i tuoi sogni a 2 ruote.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Ti sta a cuore l'ambiente? <span class="text-muted">Ami le escursioni? </span></h2>
+        <p class="lead">Le nostre bicilette dotate di sospensioni e freni a dischi sono perfette per avventure mozzafiato e scalate titaniche.</p>
+      </div>
+      <div class="col-md-5 c">
+        
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2 d">
+        <h2 class="featurette-heading">Prenota subito un nostro monopattino! <span class="text-muted">Nuove promozioni in vista.</span></h2>
+        <p class="lead">I migliori monopattini per giri in città con i vostri amici aspettano solo voi.</p>
+      </div>
+      <div class="col-md-5 order-md-12">
+        
+
+      </div>
+    </div>
+
+  
+    <br>
+<br>
+    <!-- /END THE FEATURETTES -->
+
+  </div><!-- /.container -->
+
+  <br>
+  <center><hr class = "col-sm-8"></center>
+  <br>
+
+  <% include partials/footer.ejs %>
+</main>
+
+
+
+                         <script> 
+
+tipo_utente = '<%-tipo_utente%>'
+
+if (tipo_utente == 'Utente'){
+var myButton = document.getElementById('myP1');
+                         myButton.innerHTML = 'Noleggia Ora!'
+                         myButton.href = '/NoleggioMezzi'}
+
+                         else{}
+
+
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+    if (notifica == 'login' && counter == 0 ){
+  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Autenticazione effettuata con successo'
+                    })}
+                   
+                   {
+                     
+                   }}
+
+                   else if (notifica == 'noleggio effettuato' && counter == 0 ){
+
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                   var state = history.state || {};
+  var reloadCount = state.reloadCount || 0;
+  if (performance.navigation.type === 1) { // Reload
+      state.reloadCount = ++reloadCount;
+      history.replaceState(state, null, document.URL);
+  } else if (reloadCount) {
+      delete state.reloadCount;
+      reloadCount = 0;
+      history.replaceState(state, null, document.URL);
+  }
+  if (reloadCount >= 1) {
+      // Now, do whatever you want...
+  }
+  else{                   
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Noleggio effettuato con successo'
+                    })}
+                   
+                   
+                   }
+
+
+                   else if (notifica == 'modifica effettuata' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Modifica effettuata con successo'
+})}
+
+
+}
+
+else if (notifica == 'guasto segnalato' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Guasto segnalato con successo'
+})}
+
+
+}
+       
+
+else if (notifica == 'consegna effettuata' && counter == 0 ){
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+state.reloadCount = ++reloadCount;
+history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+delete state.reloadCount;
+reloadCount = 0;
+history.replaceState(state, null, document.URL);
+}
+if (reloadCount >= 1) {
+// Now, do whatever you want...
+}
+else{                   
+Toast.fire({
+  icon: 'success',
+  title: 'Consegna effettuata con successo'
+})}
+
+
+}
+   
+                   
+                    </script>
+
+      
+  </body>
+</html>
