@@ -1,124 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+</head>
+<body>
 
+<div class="topnav" id="myTopnav">
+ <a> <img class="navbar-brand"style="width:50px" src="images/favicon.png"></img>
+  <img class="navbar-brand"style="width:150px" src="images/topNoleggi.png"></img></a>
+  <a href="/" class="active a">
+  Home
+  </a>
+  <% if(utente_loggato == null) { %>
+           
+    <a class="a" href="registrati">Registrati</a>
+    <a class="a" href="accedi">Accedi</a>
+    <%}%>
 
-
-
-<section class="navigation">
-  <div class="nav-container">
-    <div class="brand">
-      <img class="navbar-brand"style="width:50px" src="images/favicon.png"></img>
-      <img class="navbar-brand"style="width:150px" src="images/topNoleggi.png"></img>
-    </div>
-    <nav>
-      <div class="nav-mobile">
-        <a id="nav-toggle" href="#!"><span></span></a>
-      </div>
-      <ul class="nav-list">
-        <!-- Setting the links to #! will ensure that no action takes place on click. -->
-        
-
-        <li><a href="/" class="active"><i class="fa fa-fw fa-home"></i>Home</a></li>
-        <% if(utente_loggato == null) { %>
-        <li><a href="accedi">Accedi</a></li>
-        <li><a href="registrati">Registrati</a></li>
-        <%}%>
         <% if(utente_loggato != null) { %>
 
-    
+
           <% if(utente_loggato.tipo_utente=='Amministratore' ) { %>
            
-            <li><a href="logout">Logout</a></li>
+            <a class="a"href="logout">Logout</a>
             
             <%}%>
 
           <% if(utente_loggato.tipo_utente=='ImpiegatoParcheggio' ) { %>
    
-            <li><a href="segnalaGuasto">Segnala Guasto</a></li>
-            <li><a href="logout">Logout</a></li>
+            <a class="a"href="segnalaGuasto">Segnala Guasto</a>
+            <a class="a"href="logout">Logout</a>
             <%}%>  
 
             <% if(utente_loggato.tipo_utente=='Autista' ) { %>
            
-              <li><a href="logout">Logout</a></li>
+              <a class="a" href="logout">Logout</a>
               <%}%> 
 
         <% if(utente_loggato.tipo_utente == 'Utente') { %>
  
-          <li><a href="../NoleggioMezzi">NoleggioMezzi</a></li>
-          <li><a href="/users/mieiNoleggi">I Miei Noleggi</a></li>
-        <li><a href="acc">Modifica Utente</a></li>
-        <li><a href="logout">Logout</a></li>
-      </div>
-    </div>
+          <a class="a" href="../NoleggioMezzi">NoleggioMezzi</a>
+          <a  class="a" href="/users/mieiNoleggi">I Miei Noleggi</a>
+  
+        <a class="a"href="acc">Modifica Utente</a>
+        <a class="a"href="logout">Logout</a>
     <%}%>
     <%}%>
-  </div>  
-      
-      </ul>
-    </nav>
-  </div>
-</section>
+ 
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
 
-<style>
-
-</style>
 
 
 <script>
-  (function($) { // Begin jQuery
-  $(function() { // DOM ready
-    // If a link has a dropdown, add sub menu toggle.
-    $('nav ul li a:not(:only-child)').click(function(e) {
-      $(this).siblings('.nav-dropdown').toggle();
-      // Close one dropdown when selecting another
-      $('.nav-dropdown').not($(this).siblings()).hide();
-      e.stopPropagation();
-    });
-    // Clicking away from dropdown will remove the dropdown class
-    $('html').click(function() {
-      $('.nav-dropdown').hide();
-    });
-    // Toggle open and close nav styles on click
-    $('#nav-toggle').click(function() {
-      $('nav ul').slideToggle();
-    });
-    // Hamburger to X toggle
-    $('#nav-toggle').on('click', function() {
-      this.classList.toggle('active');
-    });
-  }); // end DOM ready
-})(jQuery); // end jQuery
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
 </script>
 
-
-
-<script>
-  document.getElementById("a").addEventListener("click", fire);
- 
- 
- //  function fire(){
- //   let timerInterval
- //   Swal.fire({
- //     title: 'Auto close alert!',
- //     html: 'I will close in <b></b> milliseconds.',
- //     timer: 2000,
- //     timerProgressBar: true,
- //     didOpen: () => {
- //       Swal.showLoading()
- //       const b = Swal.getHtmlContainer().querySelector('b')
- //       timerInterval = setInterval(() => {
- //         b.textContent = Swal.getTimerLeft()
- //       }, 100)
- //     },
- //     willClose: () => {
- //       clearInterval(timerInterval)
- //     }
- //   }).then((result) => {
-     
- //     /* Read more about handling dismissals below */
- //     if (result.dismiss === Swal.DismissReason.timer) {
- //       location.replace("/accedi")
- //       console.log('I was closed by the timer')
- //     }
- //   })}
- //   </script>
+</body>
+</html>
