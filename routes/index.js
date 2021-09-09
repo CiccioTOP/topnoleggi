@@ -226,7 +226,7 @@ router.get('/modificaUC', function(req,res,next){
   res.render('ModificaUtenza', {title: 'modifica dati Utente cercato', utente_loggato: req.session.utente, utente : utente})
 })
 router.get('/cercaNoleggio', function(req,res,next){
-  res.render('cercaNoleggio', {title: 'cerca utenza', utente_loggato: req.session.utente, ErrorHandler : error})
+  res.render('CercaNoleggio', {title: 'cerca utenza', utente_loggato: req.session.utente, ErrorHandler : error})
 })
 
 
