@@ -1,0 +1,34 @@
+
+<center>
+    <form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/cercaNoleggio">
+    
+        <body>
+        <div class="Ricerca Noleggio">
+        
+        
+                <legend>Inserisci ID noleggio da ricercare</legend>
+      
+                  <div class="col-sm-8">
+                    <label for="ID_noleggio">ID Noleggio</label>
+                    <input type="number" name="ID_noleggio" id="ID_noleggio" class="form-control"  required/>       
+                    <div id="myError"></div>
+                    <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" style = "float: left; "  class = "previous">&laquo; Indietro</a>
+                    <button style = "float: right; "   type="submit" name="submit" id="submit"  class="btn btn-outline-secondary mt-3">Ricerca </button>
+                
+                  </div>
+      
+               
+                </center>
+      
+          </form>
+        </div>
+        </body>
+      
+        <script>
+          error = '<%-ErrorHandler.myError%>'
+          if (error == 'MI'){
+            document.getElementById('myError').innerText = 'noleggio inesistente'
+            document.getElementById('myError').style.color = 'red'
+          }
+          else{}
+        </script>
