@@ -1,0 +1,193 @@
+
+
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/modificadatiParcheggio">
+
+    
+  
+  
+  
+  <br>
+  
+
+
+
+
+  
+  <div class="ID_parcheggio">
+
+    <legend>INSERISCI DATI PARCHEGGIO</legend>
+    <label for="titolo">ID impiegato parcheggio</label>
+    <input name="ref_IDimp" type="number" id="ref_IDimp" min="0" class="form-control" value = "<%-parcheggio.ref_IDimp%>">
+   </div>
+
+
+   
+  
+  <div class="form-check mezzi_autorizzati">
+  
+     <legend>Mezzi Autorizzati</legend>
+     <div>
+     
+      <input type="checkbox" class = "form-check-input" name="mezzo_auto" id="mezzo_auto" 
+      <label class="form-check-label" for="auto">Auto</label>
+    </div>
+    <div>
+      
+      <input type="checkbox" class = "form-check-input" name="mezzo_moto" id="mezzo_moto"/>
+      <label class="form-check-label" for="moto">Moto</label>
+      </div>
+     
+      <div>
+      <input type="checkbox" class = "form-check-input" name="mezzo_bici" id="mezzo_bici"  />
+      <label class="form-check-label" for="bici">Bicicletta</labe l>
+    </div>
+    <div>
+     
+      <input type="checkbox" class = "form-check-input" name="mezzo_monopattino" id="mezzo_monopattino"/>
+      <label class="form-check-label" for="monopattini">Monopattino</label>
+    </div>
+   
+  </div>
+
+   
+   
+
+ <div class="Posti">
+   <legend>Numero posti</legend>
+  </div>
+
+  <div class="Posti">
+    <label for="numero_auto">Auto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+    <input type="number" class = "form-control" name="numero_auto" id="numero_auto" value = '<%-parcheggio.numero_auto%>' hidden required/>
+  </div>
+
+  <div class="Posti">
+    <label for="numero_moto">Moto &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+    <input type="number"class = "form-control" name="numero_moto" id="numero_moto" value = '<%-parcheggio.numero_moto%>' hidden required/>
+  </div>
+
+    <div class="Posti">
+    <label for="numero_bici">Bici &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+    <input type="number" class = "form-control" name="numero_bici" id="numero_bici" value = '<%-parcheggio.numero_bici%>' hidden required/>
+  </div>
+
+  <div class="Posti">
+    <label for="numero_monopattino">Monopattino</label>
+    <input type="number" class = "form-control"name="numero_monopattino" id="numero_monopattino" value='<%-parcheggio.numero_monopattino%>'  hidden  required />
+  </div>
+
+   <div class="form-check">
+ 
+      <legend>Stato Parcheggio</legend>
+      <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="disponibile" required/>
+       <label class="form-check-label" for="stato_disp">Disponibile</label>
+       </div>
+
+       <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="non disponibile" required/>
+       <label class="form-check-label"  for="stato_non">Non Disponibile</label>
+       </div>
+
+       <div>
+       <input type="radio" class = "form-check-input" name="stato" id="stato"  value="in manutenzione" required/>
+       <label class="form-check-label"  for="stato_man">In Manutenzione</label>
+  </div>
+  
+</div>
+  <br>
+
+   Selezione immagine da caricare:
+    <input type="file" class = "form-control" name="foto" id="foto" accept="image/*" value='<%-parcheggio.foto%>'/>
+
+  <div class="descrizione">
+    <label for="descrizione">Breve Descrizione</label>
+    <textarea value = '<%-parcheggio.mezzo_auto%>'  type = "input" class = "form-control" id="descrizione"name="descrizione" cols="30" rows="5" ></textarea>
+  </div>
+
+  <br> <br>
+  
+
+  <br><br>
+
+   
+  
+
+  
+ 
+    <div class = "button-group">
+      <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+        <button style="float: right;" class="btn btn-outline-secondary mt-3" type="submit">Avanti</button>
+    </div>
+
+    
+
+</form>
+<hr> </hr>
+
+<br>
+
+<script>
+
+document.getElementById('mezzo_auto').onchange = function() {
+    document.getElementById('numero_auto').hidden = !this.checked;
+   
+    
+};
+
+
+document.getElementById('mezzo_moto').onchange = function() {
+    document.getElementById('numero_moto').hidden = !this.checked;
+
+};
+
+
+document.getElementById('mezzo_bici').onchange = function() {
+    document.getElementById('numero_bici').hidden = !this.checked;
+  
+};
+
+
+document.getElementById('mezzo_monopattino').onchange = function() {
+    document.getElementById('numero_monopattino').hidden = !this.checked;
+  
+};
+
+if(document.getElementById('mezzo_auto').value == 'si'){
+  document.getElementById('mezzo_auto').checked = 'true'
+}
+
+if(document.getElementById('mezzo_moto').value == 'si'){
+  document.getElementById('mezzo_moto').checked = 'true'
+}
+if(document.getElementById('mezzo_bici').value == 'si'){
+  document.getElementById('mezzo_bici').checked = 'true'
+}
+if(document.getElementById('mezzo_monopattino').value == 'si'){
+  document.getElementById('mezzo_monopattino').checked = 'true'
+}
+
+
+
+
+
+  let autocomplete;
+  function initAutocomplete(){
+      autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById('Indirizzo'),
+          {
+              types: ['establishment'],
+              componentRestrictions: {'country' : ['IT']},
+              fields: ['place_id', 'geometry', 'name']
+                      });
+        
+  }
+  
+  
+  </script>
+  
+  <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLjJODqPRmxsGeumOVnJUnlU-9Mxqiqe8&libraries=places&callback=initAutocomplete">
+  async
+  </script>
+  

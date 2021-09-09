@@ -1,0 +1,35 @@
+
+
+<form class="container was-validated col-sm-8 mt-3" method="POST" action="/users/ricercaParcheggio">
+
+  <body>
+  <div class="RicercaParcheggio">
+  
+   <form action="/users/ricercaParcheggio" method="GET">
+  
+          <legend>Inserisci dati Parcheggio</legend>
+
+            <div class="ID_parcheggio">
+              <label for="ID_parcheggio">ID parcheggio</label>
+              <input type="number" name="ID_parcheggio" id="ID_parcheggio" class="form-control"  required/>
+              <div id="myError"></div>
+              <a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+              <button style = "float: right; "   type="submit" name="submit" id="submit" value="Ricerca Parcheggio" class="btn btn-outline-secondary mt-3">Ricerca </button>
+          
+            </div>
+
+         
+     
+
+    </form>
+  </div>
+  </body>
+
+  <script>
+    error = '<%-ErrorHandler.myError%>'
+    if (error == 'MI'){
+      document.getElementById('myError').innerText = 'Parcheggio inesistente'
+      document.getElementById('myError').style.color = 'red'
+    }
+    else{}
+  </script>

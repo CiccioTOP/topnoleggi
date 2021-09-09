@@ -1,0 +1,75 @@
+<br>
+    
+<img id="box-image" style="width: 200px;" src="../images/<%- mezzo.foto%>" class="card-img" alt="image">
+<a class="list-group-item"> Tipo: <%- mezzo.tipo_mezzo %>  </a>
+<a class="list-group-item"> Modello: <%- mezzo.modello%>  </a>
+<a class="list-group-item"> Targa: <%- mezzo.targa%>  </a>
+<a class="list-group-item"> Cilindrata:<%- mezzo.cilindrata %>  </a>
+<a class="list-group-item"> Cavalli: <%- mezzo.cavalli%>  </a>
+<a class="list-group-item"> Assicurazione: <%- mezzo.assicurazione%>  </a>
+<a class="list-group-item"> Descrizione: <%- mezzo.descrizione %>  </a>
+<a class="list-group-item"> Tariffa oraria: €<%- mezzo.tariffa %>  </a>
+<a class="list-group-item"> Guasto: <%- mezzo.guasto %>  </a>
+<div class = "button-div">
+
+
+    
+    <form action="/users/cancellaMezzo" method="POST">
+      <input type="hidden" id="ID_mezzo" value="<%-mezzo.ID_mezzo%>" >
+      <button name="cancella" id="cancella"  style="float: right;" type="submit" class="btn btn-outline-secondary mt-3" onclick="if(!confirm('Sei sicuro di voler eliminare?')) return false">Cancella </button>
+<a id="procedi-btn" style="float: right;" href="/modificaMezzo" class= "btn btn-outline-secondary mt-3"> Modifica</a>
+</form>
+</div>
+<a class="btn btn-outline-secondary mt-3" href="javascript:history.back()" class = "previous">&laquo; Indietro</a>
+<br>
+
+
+      <div role="group" aria-label="Basic example" style="text-align: right; padding-top: 15px">
+
+      </div>   <br>
+      
+
+  
+      <script>
+notifica = ('<%-notifica.string%>')
+counter = parseInt('<%-notifica.counter%>')
+
+
+
+        if (notifica == 'mezzo modificato' && counter == 0 ){
+        
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        var state = history.state || {};
+        var reloadCount = state.reloadCount || 0;
+        if (performance.navigation.type === 1) { 
+        state.reloadCount = ++reloadCount;
+        history.replaceState(state, null, document.URL);
+        } else if (reloadCount) {
+        delete state.reloadCount;
+        reloadCount = 0;
+        history.replaceState(state, null, document.URL);
+        }
+        if (reloadCount >= 1) {
+       
+        }
+        else{                   
+        Toast.fire({
+          icon: 'success',
+          title: 'Mezzo modificato con successo'
+        })}
+        
+        
+        }
+        
+        
+        </script>
